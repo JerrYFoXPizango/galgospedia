@@ -1,7 +1,8 @@
 -- ============================================================
 -- GALGOSPEDIA — Schema completo para producción
--- Generado: Wed Apr 15 10:29:39     2026
+-- Generado: Wed Apr 15 10:33:17     2026
 -- Importar en phpMyAdmin de BanaHosting
+-- IMPORTANTE: seleccionar la BD antes de importar
 -- ============================================================
 
 SET NAMES utf8mb4;
@@ -13,7 +14,6 @@ SET foreign_key_checks = 0;
 -- Charset: utf8mb4 / Collation: utf8mb4_unicode_ci
 -- ============================================================
 
-USE galgospedia;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -278,7 +278,6 @@ DELIMITER ;
 
 -- ── Migración: 001_add_plan_to_users.sql ──────────────────────────────────
 -- Migration 001: Add plan and club_logo_path to users
-USE galgospedia;
 
 ALTER TABLE `users`
     ADD COLUMN `plan`            ENUM('free','club') NOT NULL DEFAULT 'free' AFTER `role`,
@@ -289,7 +288,6 @@ ALTER TABLE `users`
 -- Migration 002: Update breed_variant ENUM + no structural changes needed for stallions/broodmares
 -- Run this in HeidiSQL against the galgospedia database
 
-USE galgospedia;
 
 -- 1. Map old values to new ones before changing the ENUM
 UPDATE dogs SET breed_variant = 'spanish_greyhound' WHERE breed_variant IN ('unknown');
