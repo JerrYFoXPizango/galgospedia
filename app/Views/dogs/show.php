@@ -7,7 +7,7 @@ $pageDesc  = 'Ficha de ' . $dog['name'] . ', galgo español' .
 $ogType    = 'profile';
 $_base     = 'https://galgospedia.com';
 if (!empty($dog['photo_webp'])) {
-    $ogImage = $_base . $dog['photo_webp'];
+    $ogImage = \Helpers\Asset::url($dog['photo_webp']);
 }
 
 // Schema.org — Animal + BreadcrumbList
@@ -19,7 +19,7 @@ $_animal = [
     'breed'       => 'Galgo Español',
     'gender'      => $dog['gender'] === 'male' ? 'Male' : ($dog['gender'] === 'female' ? 'Female' : null),
 ];
-if (!empty($dog['photo_webp']))       $_animal['image']     = $_base . $dog['photo_webp'];
+if (!empty($dog['photo_webp']))       $_animal['image']     = \Helpers\Asset::url($dog['photo_webp']);
 if (!empty($dog['date_of_birth']))    $_animal['birthDate'] = $dog['date_of_birth'];
 if (!empty($dog['color']))            $_animal['color']     = $dog['color'];
 if (!empty($dog['club']))             $_animal['memberOf']  = ['@type' => 'SportsOrganization', 'name' => $dog['club']];

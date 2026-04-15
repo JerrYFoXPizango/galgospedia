@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Models;
 
 use Config\Database;
+use Helpers\Asset;
 use PDO;
 
 class DogAncestry
@@ -123,7 +124,7 @@ class DogAncestry
             'slug'       => $dog['slug'],
             'name'       => $dog['name'],
             'gender'     => $dog['gender'],
-            'photo'      => $dog['photo_webp'] ?: $dog['photo_thumb'],
+            'photo'      => Asset::url($dog['photo_webp'] ?: $dog['photo_thumb'] ?: ''),
             'reg'        => $dog['registration_number'],
             'birth'      => $dog['date_of_birth'],
             'club'       => $dog['club'] ?? null,

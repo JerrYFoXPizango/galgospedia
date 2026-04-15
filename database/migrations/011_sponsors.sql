@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS `sponsors` (
 
 -- Placeholder inicial: logo de Galgospedia como "Tu logo aquí"
 INSERT INTO `sponsors` (`name`, `logo_path`, `website_url`, `active`, `sort_order`)
-VALUES ('Tu logo aquí', '/img/sponsors/placeholder.png', NULL, 1, 0);
+VALUES ('Tu logo aquí', '/img/sponsors/placeholder.svg', NULL, 1, 0);

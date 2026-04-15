@@ -166,7 +166,9 @@
                 .attr('height', PHOTO_H)
                 .attr('rx', 6);
 
-            const imgSrc = d.data.photo ? '/' + d.data.photo : '/logo/logo512-512.png';
+            const imgSrc = d.data.photo
+                ? (d.data.photo.startsWith('http') ? d.data.photo : '/' + d.data.photo)
+                : '/logo/logo512-512.png';
             const opacity = d.data.photo ? 1 : 0.18;
 
             d3.select(this).append('image')
