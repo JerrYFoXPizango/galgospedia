@@ -11,6 +11,11 @@ CREATE TABLE IF NOT EXISTS `sponsors` (
     KEY `idx_active_order` (`active`, `sort_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Placeholder inicial: logo de Galgospedia como "Tu logo aquí"
-INSERT INTO `sponsors` (`name`, `logo_path`, `website_url`, `active`, `sort_order`)
-VALUES ('Tu logo aquí', '/img/sponsors/placeholder.svg', NULL, 1, 0);
+-- 6 placeholders iniciales (mínimo visual del carrusel)
+INSERT INTO `sponsors` (`name`, `logo_path`, `website_url`, `active`, `sort_order`) VALUES
+('Tu logo aquí', '/img/sponsors/placeholder.svg', NULL, 1, 0),
+('Tu logo aquí', '/img/sponsors/placeholder.svg', NULL, 1, 1),
+('Tu logo aquí', '/img/sponsors/placeholder.svg', NULL, 1, 2),
+('Tu logo aquí', '/img/sponsors/placeholder.svg', NULL, 1, 3),
+('Tu logo aquí', '/img/sponsors/placeholder.svg', NULL, 1, 4),
+('Tu logo aquí', '/img/sponsors/placeholder.svg', NULL, 1, 5);
