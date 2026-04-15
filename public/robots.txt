@@ -1,0 +1,22 @@
+User-agent: *
+Allow: /
+
+# Bloquear áreas privadas
+Disallow: /admin/
+Disallow: /mi-perfil
+Disallow: /mi-billetera
+Disallow: /apps/entrenamiento
+Disallow: /apps/veterinario
+Disallow: /apps/sorteos/nuevo
+Disallow: /apps/descanso
+Disallow: /oficina/mi-club
+Disallow: /login
+Disallow: /registro
+Disallow: /recuperar
+Disallow: /restablecer/
+Disallow: /verificar/
+Disallow: /api/
+Disallow: /logout
+
+# Sitemap
+Sitemap: https://galgospedia.com/sitemap.xml

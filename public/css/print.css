@@ -1,0 +1,78 @@
+@media print {
+    /* Hide nav, footer, buttons, share/edit controls */
+    nav,
+    footer,
+    .no-print,
+    form,
+    button,
+    [x-data] {
+        display: none !important;
+    }
+
+    /* Remove backgrounds and shadows for clean print */
+    body {
+        background: #fff !important;
+        color: #000 !important;
+        font-size: 12pt;
+    }
+
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    /* Stack columns vertically */
+    .grid.lg\\:grid-cols-3 {
+        display: block !important;
+    }
+
+    /* Card styling for print */
+    .card,
+    .bg-white,
+    .shadow-sm {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        border-radius: 4pt !important;
+        margin-bottom: 12pt !important;
+        padding: 10pt !important;
+        break-inside: avoid;
+    }
+
+    /* Photo max height */
+    img {
+        max-height: 300pt !important;
+    }
+
+    /* Badges */
+    .badge-gold,
+    .badge-red,
+    .badge-gray {
+        border: 1px solid #999 !important;
+        background: none !important;
+        color: #000 !important;
+        padding: 2pt 6pt !important;
+        border-radius: 3pt !important;
+        font-size: 9pt !important;
+    }
+
+    /* Links as plain text */
+    a {
+        color: #000 !important;
+        text-decoration: none !important;
+    }
+
+    /* Page header: site name */
+    .print-header {
+        display: block !important;
+        font-size: 9pt;
+        color: #666;
+        margin-bottom: 10pt;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 6pt;
+    }
+
+    /* Hide COI bar (visual only) */
+    .bg-gray-200.rounded-full {
+        display: none !important;
+    }
+}

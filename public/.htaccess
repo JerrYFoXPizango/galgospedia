@@ -1,0 +1,68 @@
+Options -Indexes -MultiViews
+RewriteEngine On
+
+# ── Force HTTPS (uncomment in production) ───────────────────
+# RewriteCond %{HTTPS} off
+# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ── Don't rewrite real files/directories ────────────────────
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# ── Route everything to front controller ────────────────────
+RewriteRule ^ index.php [QSA,L]
+
+# ── Security headers ─────────────────────────────────────────
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.googletagmanager.com https://www.google-analytics.com https://translate.googleapis.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://translate.googleapis.com; frame-src https://www.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+</IfModule>
+
+# ── Gzip compression ─────────────────────────────────────────
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE application/xml application/xhtml+xml
+    AddOutputFilterByType DEFLATE image/svg+xml font/woff2
+</IfModule>
+
+# ── Cache static assets ──────────────────────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/webp        "access plus 30 days"
+    ExpiresByType image/jpeg        "access plus 30 days"
+    ExpiresByType image/png         "access plus 30 days"
+    ExpiresByType image/svg+xml     "access plus 7 days"
+    ExpiresByType text/css          "access plus 7 days"
+    ExpiresByType application/javascript "access plus 7 days"
+    ExpiresByType font/woff2        "access plus 30 days"
+</IfModule>
+
+# ── Block direct access to sensitive files ───────────────────
+<FilesMatch "\.(env|sql|log|md|json|lock|sh|gitignore)$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>
+
+# Allow public manifest.json
+<FilesMatch "^manifest\.json$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# ── Protect app/ bootstrap/ database/ directories ───────────
+<IfModule mod_rewrite.c>
+    RewriteRule ^(app|bootstrap|database|vendor)(/|$) - [F,L]
+</IfModule>
+
+# ── PHP settings ─────────────────────────────────────────────
+<IfModule mod_php.c>
+    php_value upload_max_filesize 12M
+    php_value post_max_size 13M
+    php_value memory_limit 128M
+    php_value max_execution_time 30
+</IfModule>

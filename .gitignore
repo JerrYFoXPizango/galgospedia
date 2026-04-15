@@ -1,0 +1,41 @@
+# ── Entorno ──────────────────────────────────────────────────
+.env
+.env.local
+
+# ── Dependencias ─────────────────────────────────────────────
+vendor/
+node_modules/
+
+# ── Archivos subidos por usuarios (no van en git) ────────────
+public/uploads/dogs/*.webp
+public/uploads/dogs/*.jpg
+public/uploads/dogs/*.png
+public/uploads/avatars/*.webp
+public/uploads/avatars/*.jpg
+public/img/sponsors/*.png
+public/img/sponsors/*.jpg
+public/img/sponsors/*.webp
+# Mantener el placeholder SVG sí en git
+!public/img/sponsors/placeholder.svg
+
+# ── CSS compilado — se regenera con npm run build ────────────
+# public/css/app.css   ← lo incluimos para que el servidor no necesite Node
+# (descomenta si prefieres compilar en servidor)
+
+# ── Storage / logs ───────────────────────────────────────────
+storage/
+laragon/tmp/
+*.log
+
+# ── Sistema operativo ────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── IDEs ─────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+
+# ── Claude Code (configuración local del agente) ─────────────
+.claude/

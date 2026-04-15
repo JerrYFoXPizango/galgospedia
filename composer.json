@@ -1,0 +1,17 @@
+{
+    "name": "galgospedia/galgospedia",
+    "description": "Genealogy tree app for Spanish Greyhounds",
+    "type": "project",
+    "require": {
+        "php": ">=8.1",
+        "phpmailer/phpmailer": "^6.9",
+        "aws/aws-sdk-php": "^3.378"
+    },
+    "autoload": {
+        "psr-4": {}
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist"
+    }
+}

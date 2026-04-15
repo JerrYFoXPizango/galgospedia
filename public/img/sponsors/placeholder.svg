@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 140" width="320" height="140">
+  <rect width="320" height="140" rx="12" fill="#ffffff" stroke="#d1ccc4" stroke-width="2"/>
+  <!-- Logo mark -->
+  <text x="160" y="44" text-anchor="middle" font-family="Georgia, serif" font-size="17" font-weight="700" fill="#b91c1c" letter-spacing="3">GALGOSPEDIA</text>
+  <line x1="50" y1="58" x2="270" y2="58" stroke="#e5e0d8" stroke-width="1.5"/>
+  <!-- Main message -->
+  <text x="160" y="83" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600" fill="#374151">Tu logo aqui</text>
+  <!-- CTA -->
+  <rect x="60" y="97" width="200" height="26" rx="6" fill="#fef3c7"/>
+  <text x="160" y="115" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="600" fill="#b45309">info@galgospedia.com</text>
+</svg>
