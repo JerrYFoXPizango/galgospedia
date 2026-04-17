@@ -204,11 +204,8 @@ require APP_PATH . '/Views/layout/header.php';
                             } ?>
                         </dd>
                     </div>
-                    <?php
-                        $ownerDisplay = $dog['owner_username'] ?? ($dog['owner_name'] ?? null);
-                    ?>
-                    <?php if ($ownerDisplay): ?>
-                    <div><dt class="text-gray-400">Propietario</dt><dd class="font-medium"><?= htmlspecialchars($ownerDisplay) ?></dd></div>
+                    <?php if (!empty($dog['owner_name'])): ?>
+                    <div><dt class="text-gray-400">Propietario</dt><dd class="font-medium"><?= htmlspecialchars($dog['owner_name']) ?></dd></div>
                     <?php endif; ?>
                 </dl>
             </div>
