@@ -131,10 +131,24 @@ require APP_PATH . '/Views/layout/header.php';
 
 <!-- Stats bar -->
 <section class="bg-galgo-red text-white py-4">
-    <div class="container mx-auto px-4 flex flex-wrap justify-center gap-8 text-center text-sm font-medium">
-        <div><span class="text-2xl font-bold text-galgo-gold"><?= $totalDogs ?></span> Galgos registrados</div>
-        <div><span class="text-2xl font-bold text-galgo-gold"><?= $totalStallions ?></span> Sementales</div>
-        <div><span class="text-2xl font-bold text-galgo-gold"><?= $totalBroodmares ?></span> Reproductoras</div>
+    <div class="container mx-auto px-4 flex flex-wrap items-center justify-center gap-6 text-sm font-medium">
+        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold"><?= $totalDogs ?></span> Galgos registrados</div>
+        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold"><?= $totalStallions ?></span> Sementales</div>
+        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold"><?= $totalBroodmares ?></span> Reproductoras</div>
+        <!-- Buscador rápido -->
+        <form action="/galgos" method="GET" class="flex items-center gap-2 ml-4">
+            <div class="relative">
+                <input type="text" name="q" placeholder="Buscar galgo…"
+                       class="w-56 pl-9 pr-3 py-1.5 rounded-full text-galgo-dark text-sm bg-white/90 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-galgo-gold focus:bg-white transition">
+                <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/>
+                </svg>
+            </div>
+            <button type="submit"
+                    class="px-4 py-1.5 rounded-full bg-galgo-gold text-white text-sm font-semibold hover:bg-yellow-500 transition">
+                Buscar
+            </button>
+        </form>
     </div>
 </section>
 
