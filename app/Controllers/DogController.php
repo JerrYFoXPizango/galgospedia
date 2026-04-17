@@ -71,6 +71,7 @@ class DogController extends BaseController
             'notes'               => $this->input('notes') ?: null,
             'is_public'           => $this->input('is_public', '1') === '1' ? 1 : 0,
             'owner_user_id'       => $userId,
+            'owner_name'          => $this->input('owner_name') ?: null,
         ];
 
         if (empty($data['name'])) {
@@ -132,6 +133,7 @@ class DogController extends BaseController
             'breed_variant'       => $this->input('breed_variant', 'spanish_greyhound'),
             'notes'               => $this->input('notes') ?: null,
             'is_public'           => $this->input('is_public', '1') === '1' ? 1 : 0,
+            'owner_name'          => $this->input('owner_name') ?: null,
         ];
 
         $this->dogs->updateInfo($dog['id'], $data);

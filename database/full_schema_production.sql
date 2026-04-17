@@ -79,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `dogs` (
     `mother_id`           INT UNSIGNED  NULL,
     -- Ownership
     `owner_user_id`       INT UNSIGNED  NULL,
+    `owner_name`          VARCHAR(120)  NULL DEFAULT NULL,
     `created_by`          INT UNSIGNED  NOT NULL,
     -- Flags
     `notes`               TEXT          NULL,

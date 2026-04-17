@@ -70,6 +70,10 @@
                     <label class="form-label" for="country">País</label>
                     <input type="text" id="country" name="country" class="form-input" placeholder="Ej: España">
                 </div>
+                <div>
+                    <label class="form-label" for="owner_name">Propietario</label>
+                    <input type="text" id="owner_name" name="owner_name" class="form-input" placeholder="Nombre del propietario (si no es quien sube el galgo)">
+                </div>
             </div>
             <div>
                 <label class="form-label" for="champion">Títulos / Campeón</label>

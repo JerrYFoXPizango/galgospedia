@@ -72,6 +72,10 @@
                     <label class="form-label">País</label>
                     <input type="text" name="country" class="form-input" value="<?= htmlspecialchars($dog['country'] ?? '') ?>" placeholder="Ej: España">
                 </div>
+                <div>
+                    <label class="form-label">Propietario</label>
+                    <input type="text" name="owner_name" class="form-input" value="<?= htmlspecialchars($dog['owner_name'] ?? '') ?>" placeholder="Nombre del propietario">
+                </div>
             </div>
             <div>
                 <label class="form-label">Títulos / Campeón</label>

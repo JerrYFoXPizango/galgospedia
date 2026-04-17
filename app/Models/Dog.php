@@ -48,6 +48,7 @@ class Dog extends BaseModel
             'father_id'           => $data['father_id'] ?? null,
             'mother_id'           => $data['mother_id'] ?? null,
             'owner_user_id'       => $data['owner_user_id'] ?? null,
+            'owner_name'          => $data['owner_name'] ?? null,
             'notes'               => $data['notes'] ?? null,
             'is_public'           => $data['is_public'] ?? 1,
             'created_by'          => $createdBy,
@@ -58,7 +59,7 @@ class Dog extends BaseModel
     {
         $allowed = [
             'name','gender','date_of_birth','date_of_death','color',
-            'club','country','champion','breed_variant','notes','is_public',
+            'club','country','champion','breed_variant','notes','is_public','owner_name',
         ];
         $filtered = array_intersect_key($data, array_flip($allowed));
         return $this->update($id, $filtered);
