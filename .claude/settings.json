@@ -99,7 +99,27 @@
       "Bash(grep -r '$extraHead\\\\|json-ld' /c/laragon/www/Galgospedia/app/Views '--include=*.php')",
       "Bash(git --version)",
       "Bash(composer install *)",
-      "Bash(php c:/laragon/bin/composer/composer.phar install --no-dev --optimize-autoloader)"
+      "Bash(php c:/laragon/bin/composer/composer.phar install --no-dev --optimize-autoloader)",
+      "Bash(gh auth *)",
+      "Bash(git credential-manager *)",
+      "Bash(git credential-manager-core *)",
+      "Bash(git config *)",
+      "Bash(ssh-keygen -t ed25519 -C jbpizango@hotmail.com -f __TRACKED_VAR__/.ssh/github_galgospedia -N '')",
+      "Bash(c:/laragon/bin/mysql/mysql-8.4.3-winx64/bin/mysqldump.exe -u root --no-tablespaces --skip-comments galgospedia)",
+      "Bash(c:/laragon/bin/mysql/mysql-8.4.3-winx64/bin/mysqldump.exe -u root -p\"\" --no-tablespaces --skip-comments galgospedia)",
+      "Bash(c:/laragon/bin/mysql/mysql-8.4.3-winx64/bin/mysql.exe -u root --execute=\"SELECT user,host,authentication_string FROM mysql.user WHERE user='root';\")",
+      "Bash(php composer.phar require endroid/qr-code setasign/fpdf)",
+      "Bash(\"C:/ProgramData/ComposerSetup/bin/composer.bat\" require *)",
+      "Bash(cmd /c \"cd c:\\\\laragon\\\\www\\\\Galgospedia && composer require endroid/qr-code setasign/fpdf\")",
+      "Bash(cmd /c \"cd /d c:\\\\laragon\\\\www\\\\Galgospedia && composer require endroid/qr-code setasign/fpdf 2>&1\")",
+      "Bash(powershell -Command \"Set-Location 'c:\\\\laragon\\\\www\\\\Galgospedia'; composer require endroid/qr-code setasign/fpdf\")",
+      "Read(//c/Users/**)",
+      "Bash(curl -L \"https://github.com/JulietaUla/Montserrat/raw/master/fonts/ttf/Montserrat-Bold.ttf\" -o c:/laragon/www/Galgospedia/public/fonts/Montserrat-Bold.ttf)",
+      "Bash(curl -L \"https://github.com/JulietaUla/Montserrat/raw/master/fonts/ttf/Montserrat-Regular.ttf\" -o c:/laragon/www/Galgospedia/public/fonts/Montserrat-Regular.ttf)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(/c/laragon/bin/composer/composer.bat remove *)"
     ]
   }
 }
