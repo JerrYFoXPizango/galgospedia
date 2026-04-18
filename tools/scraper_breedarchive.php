@@ -138,7 +138,9 @@ function open_csv(string $file, array $headers, bool $resume): mixed {
     return $fh;
 }
 
-function map_animal(array $a): array {
+function map_animal(array $entry): array {
+    // API nests animal data one level deep: {"animal": {...}, "isNew": false, ...}
+    $a      = $entry['animal'] ?? $entry;
     $titles = trim(($a['prefixTitles'] ?? '') . ' ' . ($a['suffixTitles'] ?? ''));
     return [
         'name'          => trim($a['registeredName'] ?? ''),
