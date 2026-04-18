@@ -240,6 +240,7 @@ class AdminController extends BaseController
     {
         Csrf::verify();
         @set_time_limit(0);
+        @ini_set('memory_limit', '512M');
 
         $tmpFile = $_SESSION['import_tmp'] ?? null;
         if (!$tmpFile || !file_exists($tmpFile)) {
@@ -247,17 +248,34 @@ class AdminController extends BaseController
             $this->redirect('/admin/importar');
         }
 
-        $rows  = $this->parseCsv($tmpFile);
-        $stats = (new Dog())->bulkImport($rows, $this->currentUserId(), false);
+        try {
+            $rows  = $this->parseCsv($tmpFile);
+            $stats = (new Dog())->bulkImport($rows, $this->currentUserId(), false);
 
-        @unlink($tmpFile);
-        unset($_SESSION['import_tmp']);
+            @unlink($tmpFile);
+            unset($_SESSION['import_tmp']);
 
-        Flash::set('success',
-            "Importación completada: {$stats['inserted']} galgos nuevos, "
-            . "{$stats['linked']} parentescos enlazados, "
-            . "{$stats['skipped']} omitidos (ya existían o sin nombre)."
-        );
+            Flash::set('success',
+                "Importación completada: {$stats['inserted']} galgos nuevos, "
+                . "{$stats['linked']} parentescos enlazados, "
+                . "{$stats['skipped']} omitidos (ya existían o sin nombre)."
+            );
+        } catch (\Throwable $e) {
+            // Log full error and show friendly message with detail for admin
+            $logFile = APP_PATH . '/../storage/logs/import_error.log';
+            @file_put_contents(
+                $logFile,
+                '[' . date('Y-m-d H:i:s') . '] ' . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n\n",
+                FILE_APPEND
+            );
+            // Keep tmp file so admin can retry
+            Flash::set('error',
+                'Error durante la importación: ' . htmlspecialchars($e->getMessage()) . '. '
+                . 'La base de datos quedó sin cambios (rollback automático). '
+                . 'Puedes volver a intentarlo.'
+            );
+        }
+
         $this->redirect('/admin/importar');
     }
 

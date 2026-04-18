@@ -187,56 +187,65 @@ class Dog extends BaseModel
 
         $inserted       = 0;
         $skipped        = 0;
+        $errors         = [];
         $pendingParents = []; // dog_id → ['sire' => name, 'dam' => name]
 
-        foreach ($rows as $row) {
-            $name = trim($row['name'] ?? '');
-            if ($name === '') { $skipped++; continue; }
+        if (!$dryRun) $this->db->beginTransaction();
 
-            if (isset($existing[strtolower($name)])) { $skipped++; continue; }
+        try {
+            foreach ($rows as $i => $row) {
+                $name = trim($row['name'] ?? '');
+                if ($name === '') { $skipped++; continue; }
 
-            $dob = !empty($row['year_of_birth']) ? ((int)$row['year_of_birth']) . '-01-01' : null;
+                if (isset($existing[strtolower($name)])) { $skipped++; continue; }
 
-            if (!$dryRun) {
-                $id = $this->create([
-                    'name'          => $name,
-                    'gender'        => $row['gender']    ?? 'unknown',
-                    'color'         => $row['color']     ?: null,
-                    'country'       => $row['country']   ?: null,
-                    'date_of_birth' => $dob,
-                    'champion'      => $row['champion']  ?: null,
-                ], $importedBy);
+                $dob = !empty($row['year_of_birth']) ? ((int)$row['year_of_birth']) . '-01-01' : null;
 
-                $existing[strtolower($name)] = true;
+                if (!$dryRun) {
+                    $id = $this->create([
+                        'name'          => $name,
+                        'gender'        => $row['gender']    ?? 'unknown',
+                        'color'         => $row['color']     ?: null,
+                        'country'       => $row['country']   ?: null,
+                        'date_of_birth' => $dob,
+                        'champion'      => $row['champion']  ?: null,
+                    ], $importedBy);
 
-                $sire = trim($row['sire_name'] ?? '');
-                $dam  = trim($row['dam_name']  ?? '');
-                if ($sire || $dam) {
-                    $pendingParents[$id] = ['sire' => $sire, 'dam' => $dam];
-                }
-            }
+                    $existing[strtolower($name)] = true;
 
-            $inserted++;
-        }
-
-        // Second pass — resolve parent links
-        $linked = 0;
-        if (!$dryRun) {
-            $lookupStmt = $this->db->prepare("SELECT id FROM dogs WHERE name = ? LIMIT 1");
-            foreach ($pendingParents as $dogId => $parents) {
-                $updates = [];
-                foreach (['sire' => 'father_id', 'dam' => 'mother_id'] as $key => $col) {
-                    if ($parents[$key] !== '') {
-                        $lookupStmt->execute([$parents[$key]]);
-                        $found = $lookupStmt->fetchColumn();
-                        if ($found) $updates[$col] = (int) $found;
+                    $sire = trim($row['sire_name'] ?? '');
+                    $dam  = trim($row['dam_name']  ?? '');
+                    if ($sire || $dam) {
+                        $pendingParents[$id] = ['sire' => $sire, 'dam' => $dam];
                     }
                 }
-                if ($updates) { $this->update($dogId, $updates); $linked++; }
+
+                $inserted++;
             }
+
+            // Second pass — resolve parent links
+            $linked = 0;
+            if (!$dryRun) {
+                $lookupStmt = $this->db->prepare("SELECT id FROM dogs WHERE name = ? LIMIT 1");
+                foreach ($pendingParents as $dogId => $parents) {
+                    $updates = [];
+                    foreach (['sire' => 'father_id', 'dam' => 'mother_id'] as $key => $col) {
+                        if ($parents[$key] !== '') {
+                            $lookupStmt->execute([$parents[$key]]);
+                            $found = $lookupStmt->fetchColumn();
+                            if ($found) $updates[$col] = (int) $found;
+                        }
+                    }
+                    if ($updates) { $this->update($dogId, $updates); $linked++; }
+                }
+                $this->db->commit();
+            }
+        } catch (\Throwable $e) {
+            if (!$dryRun && $this->db->inTransaction()) $this->db->rollBack();
+            throw $e; // re-throw so controller can log + show error
         }
 
-        return compact('inserted', 'skipped', 'linked');
+        return compact('inserted', 'skipped', 'linked', 'errors');
     }
 
     /** Generate a URL-safe slug unique in the dogs table */
