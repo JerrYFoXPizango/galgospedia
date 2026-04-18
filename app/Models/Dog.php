@@ -238,6 +238,18 @@ class Dog extends BaseModel
                     }
                     if ($updates) { $this->update($dogId, $updates); $linked++; }
                 }
+
+                // Third pass — register males as stallions, females as broodmares
+                $this->db->exec("INSERT INTO stallions (dog_id, is_active, created_at)
+                    SELECT d.id, 1, NOW() FROM dogs d
+                    LEFT JOIN stallions s ON s.dog_id = d.id
+                    WHERE d.gender = 'male' AND s.id IS NULL");
+
+                $this->db->exec("INSERT INTO broodmares (dog_id, is_active, created_at)
+                    SELECT d.id, 1, NOW() FROM dogs d
+                    LEFT JOIN broodmares b ON b.dog_id = d.id
+                    WHERE d.gender = 'female' AND b.id IS NULL");
+
                 $this->db->commit();
             }
         } catch (\Throwable $e) {
