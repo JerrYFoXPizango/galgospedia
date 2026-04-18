@@ -157,6 +157,11 @@ class Routes
             ['GET',  '/admin/torneos',               \Controllers\AdminController::class,     'tournaments',           ['admin']],
             ['POST', '/admin/torneos/{id}/estado',   \Controllers\AdminController::class,     'updateTournamentStatus',['admin']],
 
+            // ── Importador CSV ───────────────────────────────
+            ['GET',  '/admin/importar',          \Controllers\AdminController::class, 'showImport',    ['admin']],
+            ['POST', '/admin/importar/preview',  \Controllers\AdminController::class, 'previewImport', ['admin']],
+            ['POST', '/admin/importar/ejecutar', \Controllers\AdminController::class, 'runImport',     ['admin']],
+
             // ── Patrocinadores ────────────────────────────────
             ['GET',  '/admin/patrocinadores',                  \Controllers\SponsorController::class, 'index',   ['admin']],
             ['GET',  '/admin/patrocinadores/nuevo',            \Controllers\SponsorController::class, 'create',  ['admin']],

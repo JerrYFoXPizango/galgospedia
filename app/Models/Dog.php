@@ -166,6 +166,79 @@ class Dog extends BaseModel
         return $this->count('is_public = 1');
     }
 
+    /**
+     * Bulk-import dogs from a parsed CSV (array of assoc rows).
+     * Skips rows whose name already exists (case-insensitive).
+     * Two-pass: inserts all dogs first, then resolves sire/dam by name.
+     *
+     * @param  array[] $rows        Rows from the CSV (keys: name,gender,color,country,
+     *                              year_of_birth,sire_name,dam_name,champion,variety)
+     * @param  int     $importedBy  User ID that will own the import
+     * @param  bool    $dryRun      If true, count only — no DB writes
+     * @return array{inserted:int, skipped:int, linked:int}
+     */
+    public function bulkImport(array $rows, int $importedBy, bool $dryRun = false): array
+    {
+        // Build existing-name index (lowercase → true) to detect duplicates fast
+        $existing = [];
+        foreach ($this->db->query("SELECT LOWER(name) AS n FROM dogs")->fetchAll(\PDO::FETCH_COLUMN) as $n) {
+            $existing[$n] = true;
+        }
+
+        $inserted       = 0;
+        $skipped        = 0;
+        $pendingParents = []; // dog_id → ['sire' => name, 'dam' => name]
+
+        foreach ($rows as $row) {
+            $name = trim($row['name'] ?? '');
+            if ($name === '') { $skipped++; continue; }
+
+            if (isset($existing[strtolower($name)])) { $skipped++; continue; }
+
+            $dob = !empty($row['year_of_birth']) ? ((int)$row['year_of_birth']) . '-01-01' : null;
+
+            if (!$dryRun) {
+                $id = $this->create([
+                    'name'          => $name,
+                    'gender'        => $row['gender']    ?? 'unknown',
+                    'color'         => $row['color']     ?: null,
+                    'country'       => $row['country']   ?: null,
+                    'date_of_birth' => $dob,
+                    'champion'      => $row['champion']  ?: null,
+                ], $importedBy);
+
+                $existing[strtolower($name)] = true;
+
+                $sire = trim($row['sire_name'] ?? '');
+                $dam  = trim($row['dam_name']  ?? '');
+                if ($sire || $dam) {
+                    $pendingParents[$id] = ['sire' => $sire, 'dam' => $dam];
+                }
+            }
+
+            $inserted++;
+        }
+
+        // Second pass — resolve parent links
+        $linked = 0;
+        if (!$dryRun) {
+            $lookupStmt = $this->db->prepare("SELECT id FROM dogs WHERE name = ? LIMIT 1");
+            foreach ($pendingParents as $dogId => $parents) {
+                $updates = [];
+                foreach (['sire' => 'father_id', 'dam' => 'mother_id'] as $key => $col) {
+                    if ($parents[$key] !== '') {
+                        $lookupStmt->execute([$parents[$key]]);
+                        $found = $lookupStmt->fetchColumn();
+                        if ($found) $updates[$col] = (int) $found;
+                    }
+                }
+                if ($updates) { $this->update($dogId, $updates); $linked++; }
+            }
+        }
+
+        return compact('inserted', 'skipped', 'linked');
+    }
+
     /** Generate a URL-safe slug unique in the dogs table */
     private function makeUniqueSlug(string $name): string
     {

@@ -194,4 +194,100 @@ class AdminController extends BaseController
         Flash::set($stats['errors'] > 0 ? 'error' : 'success', $msg);
         $this->redirect('/admin/alertas');
     }
+
+    // ── Importador CSV ───────────────────────────────────────
+
+    public function showImport(array $p = []): void
+    {
+        $this->render('admin/import', ['preview' => null, 'tmpFile' => null]);
+    }
+
+    public function previewImport(array $p = []): void
+    {
+        Csrf::verify();
+
+        $file = $_FILES['csv'] ?? null;
+        if (!$file || $file['error'] !== UPLOAD_ERR_OK) {
+            Flash::set('error', 'Error al subir el archivo CSV.');
+            $this->redirect('/admin/importar');
+        }
+
+        // Validate MIME / extension
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        if ($ext !== 'csv') {
+            Flash::set('error', 'Sólo se aceptan archivos .csv');
+            $this->redirect('/admin/importar');
+        }
+
+        // Move to temp dir
+        $tmpFile = sys_get_temp_dir() . '/galgos_import_' . bin2hex(random_bytes(8)) . '.csv';
+        move_uploaded_file($file['tmp_name'], $tmpFile);
+
+        // Parse CSV — detect BOM and delimiter
+        $rows    = $this->parseCsv($tmpFile);
+        $total   = count($rows);
+        $preview = array_slice($rows, 0, 8);
+
+        // Count duplicates for info
+        $dryStats = (new Dog())->bulkImport($rows, $this->currentUserId(), true);
+
+        $_SESSION['import_tmp'] = $tmpFile;
+
+        $this->render('admin/import', compact('preview', 'total', 'dryStats', 'tmpFile'));
+    }
+
+    public function runImport(array $p = []): void
+    {
+        Csrf::verify();
+        @set_time_limit(0);
+
+        $tmpFile = $_SESSION['import_tmp'] ?? null;
+        if (!$tmpFile || !file_exists($tmpFile)) {
+            Flash::set('error', 'Archivo temporal no encontrado. Vuelve a subir el CSV.');
+            $this->redirect('/admin/importar');
+        }
+
+        $rows  = $this->parseCsv($tmpFile);
+        $stats = (new Dog())->bulkImport($rows, $this->currentUserId(), false);
+
+        @unlink($tmpFile);
+        unset($_SESSION['import_tmp']);
+
+        Flash::set('success',
+            "Importación completada: {$stats['inserted']} galgos nuevos, "
+            . "{$stats['linked']} parentescos enlazados, "
+            . "{$stats['skipped']} omitidos (ya existían o sin nombre)."
+        );
+        $this->redirect('/admin/importar');
+    }
+
+    /** Parse a UTF-8 (with or without BOM) CSV file into assoc rows */
+    private function parseCsv(string $path): array
+    {
+        $handle = fopen($path, 'r');
+        if (!$handle) return [];
+
+        // Strip BOM
+        $bom = fread($handle, 3);
+        if ($bom !== "\xEF\xBB\xBF") rewind($handle);
+
+        // Sniff delimiter on first line
+        $first = fgets($handle);
+        rewind($handle);
+        if ($bom === "\xEF\xBB\xBF") fread($handle, 3);
+        $delimiter = (substr_count($first, ';') > substr_count($first, ',')) ? ';' : ',';
+
+        $headers = fgetcsv($handle, 0, $delimiter);
+        if (!$headers) { fclose($handle); return []; }
+        $headers = array_map('trim', $headers);
+
+        $rows = [];
+        while (($row = fgetcsv($handle, 0, $delimiter)) !== false) {
+            if (count($row) === count($headers)) {
+                $rows[] = array_combine($headers, $row);
+            }
+        }
+        fclose($handle);
+        return $rows;
+    }
 }

@@ -54,6 +54,10 @@
             <h3 class="font-bold text-lg mb-1">🤝 Patrocinadores</h3>
             <p class="text-sm text-gray-500">Gestionar logos y enlaces del carrusel en la landing page</p>
         </a>
+        <a href="/admin/importar" class="card hover:border-galgo-gold hover:shadow-md transition border border-transparent">
+            <h3 class="font-bold text-lg mb-1">📥 Importar CSV</h3>
+            <p class="text-sm text-gray-500">Cargar galgos en masa desde el fichero exportado por el scraper</p>
+        </a>
     </div>
 </div>
 
