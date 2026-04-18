@@ -17,6 +17,15 @@ $config = [
     'log'       => __DIR__ . '/data/fedegalgos.log',
     'delay'     => 5,
     'urls'      => [
+        // Campeonatos de España en Campo (todos los disponibles en sitemap)
+        'https://www.fedegalgos.com/project/2013-campeonato-de-espana-de-galgos-en-campo/',
+        'https://www.fedegalgos.com/project/2016-campeonato-de-espana-de-galgos-en-campo-copa-s-m-el-rey/',
+        'https://www.fedegalgos.com/project/lxxvii-campeonato-de-espana-de-galgos-en-campo-copa-s-m-el-rey/',
+        'https://www.fedegalgos.com/project/lxxviii-campeonato-de-espana-de-galgos-en-campo-copa-s-m-el-rey/',
+        'https://www.fedegalgos.com/project/lxxix-campeonato-de-espana-de-galgos-en-campo-copa-s-m-el-rey-osuna-2017/',
+        'https://www.fedegalgos.com/project/2018-lxxx-campeonato-de-espana-de-espana-madrigal/',
+        'https://www.fedegalgos.com/project/2019-lxxxi-campeonato-de-espana-de-galgos-en-campo-nava-del-rey/',
+        'https://www.fedegalgos.com/project/2020-lxxxii-campeonato-de-espana-de-galgos-en-campo-copa-s-m-el-rey/',
         'https://www.fedegalgos.com/project/2020-lxxxii-campeonato-de-espana-de-galgos-en-campo-copa-s-m-el-rey-copy/',
         'https://www.fedegalgos.com/project/2020-lxxxii-campeonato-de-espana-de-galgos-en-campo-copa-s-m-el-rey-copy-copy/',
         'https://www.fedegalgos.com/project/2020-lxxxii-campeonato-de-espana-de-galgos-en-campo-copa-s-m-el-rey-copy-copy-copy/',
