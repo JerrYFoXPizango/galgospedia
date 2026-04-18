@@ -8,8 +8,16 @@ class Broodmare extends BaseModel
 {
     protected string $table = 'broodmares';
 
-    public function allActive(int $limit = 50): array
+    public function allActive(int $limit = 50, string $q = ''): array
     {
+        $where = "b.is_active = 1 AND d.is_public = 1";
+        $params = [];
+        if ($q !== '') {
+            $where .= " AND (d.name LIKE ? OR d.registration_number LIKE ? OR d.club LIKE ? OR d.country LIKE ?)";
+            $like = '%' . $q . '%';
+            $params = [$like, $like, $like, $like];
+        }
+        $params[] = $limit;
         $stmt = $this->db->prepare(
             "SELECT b.*, d.slug, d.name, d.photo_thumb, d.photo_webp,
                     d.registration_number, d.date_of_birth, d.color, d.club, d.country,
@@ -17,11 +25,11 @@ class Broodmare extends BaseModel
              FROM broodmares b
              JOIN dogs d ON d.id = b.dog_id
              LEFT JOIN users u ON u.id = d.owner_user_id
-             WHERE b.is_active = 1 AND d.is_public = 1
+             WHERE $where
              ORDER BY b.featured_order ASC, d.name ASC
              LIMIT ?"
         );
-        $stmt->execute([$limit]);
+        $stmt->execute($params);
         return $stmt->fetchAll();
     }
 

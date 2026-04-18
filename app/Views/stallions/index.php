@@ -7,7 +7,16 @@ require APP_PATH . '/Views/layout/header.php';
 <div class="container mx-auto px-4 py-8">
     <div class="text-center mb-10">
         <h1 class="text-4xl font-display font-bold mb-2">Sementales de Galgo Español</h1>
-        <p class="text-gray-500">Los mejores machos reproductores del Galgo Español</p>
+        <p class="text-gray-500 mb-6">Los mejores machos reproductores del Galgo Español</p>
+        <form action="/sementales" method="GET" class="flex items-center justify-center gap-2">
+            <input type="text" name="q" value="<?= htmlspecialchars($q ?? '') ?>"
+                   placeholder="🔍 Buscar semental…"
+                   class="w-72 px-4 py-2 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-galgo-gold">
+            <button type="submit" class="px-5 py-2 rounded-full bg-galgo-gold text-white text-sm font-semibold hover:bg-yellow-500 transition">Buscar</button>
+            <?php if (!empty($q)): ?>
+                <a href="/sementales" class="px-4 py-2 rounded-full border border-gray-200 text-sm text-gray-500 hover:bg-gray-50 transition">✕ Limpiar</a>
+            <?php endif; ?>
+        </form>
     </div>
 
     <?php if (empty($stallions)): ?>

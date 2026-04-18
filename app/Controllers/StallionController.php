@@ -8,7 +8,8 @@ class StallionController extends BaseController
 {
     public function index(array $p = []): void
     {
-        $stallions = (new Stallion())->allActive();
-        $this->render('stallions/index', compact('stallions'));
+        $q = trim($this->query('q', ''));
+        $stallions = (new Stallion())->allActive(50, $q);
+        $this->render('stallions/index', compact('stallions', 'q'));
     }
 }

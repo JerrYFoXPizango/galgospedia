@@ -8,7 +8,8 @@ class BroodmareController extends BaseController
 {
     public function index(array $p = []): void
     {
-        $broodmares = (new Broodmare())->allActive();
-        $this->render('broodmares/index', compact('broodmares'));
+        $q = trim($this->query('q', ''));
+        $broodmares = (new Broodmare())->allActive(50, $q);
+        $this->render('broodmares/index', compact('broodmares', 'q'));
     }
 }
