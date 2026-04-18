@@ -181,6 +181,47 @@ require APP_PATH . '/Views/layout/header.php';
                 </button>
             </div>
 
+            <!-- Tarjeta digital -->
+            <div class="no-print card" x-data="{ layout: 'horizontal', tipo: 'png' }">
+                <h2 class="font-semibold mb-3">🪪 Tarjeta Digital</h2>
+                <p class="text-xs text-gray-400 mb-4">Genera una tarjeta con QR para compartir en redes sociales, WhatsApp o imprimir.</p>
+
+                <!-- Layout -->
+                <div class="mb-3">
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Formato</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button @click="layout='horizontal'" :class="layout==='horizontal' ? 'bg-galgo-dark text-white' : 'border border-gray-200 text-gray-600 hover:bg-gray-50'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition">🖼️ Horizontal (1200×630)</button>
+                        <button @click="layout='cuadrado'" :class="layout==='cuadrado' ? 'bg-galgo-dark text-white' : 'border border-gray-200 text-gray-600 hover:bg-gray-50'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition">⬜ Cuadrado (1080×1080)</button>
+                        <button @click="layout='story'" :class="layout==='story' ? 'bg-galgo-dark text-white' : 'border border-gray-200 text-gray-600 hover:bg-gray-50'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition">📱 Story (1080×1920)</button>
+                    </div>
+                </div>
+
+                <!-- Tipo de archivo -->
+                <div class="mb-4">
+                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Archivo</p>
+                    <div class="flex flex-wrap gap-2">
+                        <button @click="tipo='png'" :class="tipo==='png' ? 'bg-galgo-gold text-white' : 'border border-gray-200 text-gray-600 hover:bg-gray-50'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition">PNG</button>
+                        <button @click="tipo='jpg'" :class="tipo==='jpg' ? 'bg-galgo-gold text-white' : 'border border-gray-200 text-gray-600 hover:bg-gray-50'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition">JPG</button>
+                        <button @click="tipo='webp'" :class="tipo==='webp' ? 'bg-galgo-gold text-white' : 'border border-gray-200 text-gray-600 hover:bg-gray-50'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition">WebP</button>
+                        <button @click="tipo='pdf'" :class="tipo==='pdf' ? 'bg-galgo-gold text-white' : 'border border-gray-200 text-gray-600 hover:bg-gray-50'"
+                                class="px-3 py-1.5 rounded-lg text-sm font-medium transition">PDF</button>
+                    </div>
+                </div>
+
+                <!-- Download button -->
+                <a :href="'/galgos/<?= htmlspecialchars($dog['slug']) ?>/tarjeta?layout=' + layout + '&tipo=' + tipo"
+                   class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-galgo-red text-white font-semibold text-sm hover:bg-red-700 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    Descargar tarjeta
+                </a>
+            </div>
+
             <!-- Info table -->
             <div class="card">
                 <h2 class="font-semibold mb-3">Información</h2>

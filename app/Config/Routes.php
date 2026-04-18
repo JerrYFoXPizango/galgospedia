@@ -61,6 +61,7 @@ class Routes
             ['GET',  '/galgos/nuevo',                 \Controllers\DogController::class,       'create',  ['auth']],
             ['GET',  '/galgos/{slug}',                \Controllers\DogController::class,       'show',    []],
             ['POST', '/galgos',                       \Controllers\DogController::class,       'store',   ['auth']],
+            ['GET',  '/galgos/{slug}/tarjeta',          \Controllers\TarjetaController::class,   'generate', []],
             ['GET',  '/galgos/{slug}/editar',         \Controllers\DogController::class,       'edit',    ['auth']],
             ['POST', '/galgos/{slug}/actualizar',     \Controllers\DogController::class,       'update',  ['auth']],
             ['POST', '/galgos/{slug}/eliminar',       \Controllers\DogController::class,       'destroy', ['auth']],
