@@ -42,8 +42,9 @@ class TrainingController extends BaseController
     }
 
     // GET /apps/entrenamiento/{slug}
-    public function show(string $slug): void
+    public function show(array $p = []): void
     {
+        $slug    = $p['slug'] ?? '';
         $userId  = \Services\AuthService::currentUserId();
         $dog     = $this->getDog($slug, $userId);
         $dogId   = (int)$dog['id'];
@@ -106,8 +107,9 @@ class TrainingController extends BaseController
     }
 
     // GET /apps/entrenamiento/sesion/{id}/editar
-    public function edit(int $id): void
+    public function edit(array $p = []): void
     {
+        $id     = (int)($p['id'] ?? 0);
         $userId = \Services\AuthService::currentUserId();
         $record = Training::findOwned($id, $userId);
         if (!$record) { http_response_code(404); die('Sesión no encontrada.'); }
@@ -119,8 +121,9 @@ class TrainingController extends BaseController
     }
 
     // POST /apps/entrenamiento/sesion/{id}/actualizar
-    public function update(int $id): void
+    public function update(array $p = []): void
     {
+        $id     = (int)($p['id'] ?? 0);
         $userId = \Services\AuthService::currentUserId();
         $record = Training::findOwned($id, $userId);
         if (!$record) { http_response_code(404); die('Sesión no encontrada.'); }
@@ -144,8 +147,9 @@ class TrainingController extends BaseController
     }
 
     // POST /apps/entrenamiento/sesion/{id}/eliminar
-    public function destroy(int $id): void
+    public function destroy(array $p = []): void
     {
+        $id     = (int)($p['id'] ?? 0);
         $userId = \Services\AuthService::currentUserId();
         $record = Training::findOwned($id, $userId);
         if (!$record) { http_response_code(404); die('Sesión no encontrada.'); }

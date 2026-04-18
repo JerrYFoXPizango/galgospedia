@@ -53,8 +53,9 @@ class SponsorController extends BaseController
     }
 
     // GET /admin/patrocinadores/{id}/editar
-    public function edit(int $id): void
+    public function edit(array $p = []): void
     {
+        $id      = (int)($p['id'] ?? 0);
         $sponsor = Sponsor::find($id);
         if (!$sponsor) { http_response_code(404); die('No encontrado.'); }
         $errors = [];
@@ -63,8 +64,9 @@ class SponsorController extends BaseController
     }
 
     // POST /admin/patrocinadores/{id}/actualizar
-    public function update(int $id): void
+    public function update(array $p = []): void
     {
+        $id      = (int)($p['id'] ?? 0);
         Csrf::verify();
         $sponsor = Sponsor::find($id);
         if (!$sponsor) { http_response_code(404); die('No encontrado.'); }
@@ -95,8 +97,9 @@ class SponsorController extends BaseController
     }
 
     // POST /admin/patrocinadores/{id}/eliminar
-    public function destroy(int $id): void
+    public function destroy(array $p = []): void
     {
+        $id       = (int)($p['id'] ?? 0);
         Csrf::verify();
         $logoPath = Sponsor::delete($id);
         if ($logoPath) $this->deleteFile($logoPath);
@@ -106,8 +109,9 @@ class SponsorController extends BaseController
     }
 
     // POST /admin/patrocinadores/{id}/toggle
-    public function toggle(int $id): void
+    public function toggle(array $p = []): void
     {
+        $id = (int)($p['id'] ?? 0);
         Csrf::verify();
         Sponsor::toggleActive($id);
         header('Location: /admin/patrocinadores');
