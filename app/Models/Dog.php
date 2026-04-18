@@ -49,6 +49,7 @@ class Dog extends BaseModel
             'mother_id'           => $data['mother_id'] ?? null,
             'owner_user_id'       => $data['owner_user_id'] ?? null,
             'owner_name'          => $data['owner_name'] ?? null,
+            'registration_number' => $data['registration_number'] ?? null,
             'notes'               => $data['notes'] ?? null,
             'is_public'           => $data['is_public'] ?? 1,
             'created_by'          => $createdBy,
@@ -203,12 +204,14 @@ class Dog extends BaseModel
 
                 if (!$dryRun) {
                     $id = $this->create([
-                        'name'          => $name,
-                        'gender'        => $row['gender']    ?? 'unknown',
-                        'color'         => $row['color']     ?: null,
-                        'country'       => $row['country']   ?: null,
-                        'date_of_birth' => $dob,
-                        'champion'      => $row['champion']  ?: null,
+                        'name'                => $name,
+                        'gender'              => $row['gender']              ?? 'unknown',
+                        'color'               => $row['color']               ?: null,
+                        'country'             => $row['country']             ?: null,
+                        'date_of_birth'       => $dob,
+                        'champion'            => $row['champion']            ?: null,
+                        'registration_number' => $row['registration_number'] ?: null,
+                        'owner_name'          => $row['owner_name']          ?: null,
                     ], $importedBy);
 
                     $existing[strtolower($name)] = true;
