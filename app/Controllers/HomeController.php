@@ -14,7 +14,7 @@ class HomeController extends BaseController
 
         $stallions       = $stallionModel->allActive(6);
         $broodmares      = $broodmareModel->allActive(6);
-        $recentDogs      = $dogModel->directory(1, 8);
+        $recentDogs      = $dogModel->getRecent(12);
         $totalDogs       = $dogModel->countPublic();
         $totalStallions  = $stallionModel->countActive();
         $totalBroodmares = $broodmareModel->countActive();

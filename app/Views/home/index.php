@@ -132,9 +132,9 @@ require APP_PATH . '/Views/layout/header.php';
 <!-- Stats bar -->
 <section class="bg-galgo-red text-white py-4">
     <div class="container mx-auto px-4 flex flex-wrap items-center justify-center gap-6 text-sm font-medium">
-        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold"><?= $totalDogs ?></span> Galgos registrados</div>
-        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold"><?= $totalStallions ?></span> Sementales</div>
-        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold"><?= $totalBroodmares ?></span> Reproductoras</div>
+        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold stat-num" data-target="<?= $totalDogs ?>">0</span> Galgos registrados</div>
+        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold stat-num" data-target="<?= $totalStallions ?>">0</span> Sementales</div>
+        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold stat-num" data-target="<?= $totalBroodmares ?>">0</span> Reproductoras</div>
         <!-- Buscador rápido -->
         <form action="/galgos" method="GET" class="flex items-center gap-2 ml-4">
             <input type="text" name="q" placeholder="🔍 Buscar galgo…"
@@ -147,62 +147,89 @@ require APP_PATH . '/Views/layout/header.php';
     </div>
 </section>
 
+<!-- Activity strip -->
+<?php if (!empty($recentDogs)): ?>
+<?php $lastDog = $recentDogs[0]; $ago = time() - strtotime($lastDog['created_at']); $agoStr = $ago < 3600 ? round($ago/60).'min' : ($ago < 86400 ? round($ago/3600).'h' : round($ago/86400).'d'); ?>
+<div class="activity-strip">
+    <span class="activity-dot"></span>
+    <span>Último registro: <a href="/galgos/<?= htmlspecialchars($lastDog['slug']) ?>" class="font-semibold text-gray-700 hover:text-galgo-red"><?= htmlspecialchars($lastDog['name']) ?></a> — hace <?= $agoStr ?></span>
+</div>
+<?php endif; ?>
+
 <!-- Galgos añadidos recientemente -->
-<?php if (!empty($recentDogs['data'])): ?>
-<section class="container mx-auto px-4 py-12">
+<?php if (!empty($recentDogs)): ?>
+<section class="container mx-auto px-4 py-12" data-reveal>
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-display font-bold text-galgo-dark">Últimos Galgos Registrados</h2>
         <a href="/galgos" class="text-galgo-red hover:underline text-sm font-medium">Ver directorio →</a>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3">
-        <?php foreach ($recentDogs['data'] as $d): ?>
-        <a href="/galgos/<?= htmlspecialchars($d['slug']) ?>" class="group text-center">
-            <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 mb-2 ring-1 ring-gray-200 group-hover:ring-2 group-hover:ring-galgo-red transition">
-                <?php if ($d['photo_thumb']): ?>
-                    <img src="<?= \Helpers\Asset::url($d['photo_thumb']) ?>"
-                         alt="Galgo Español <?= htmlspecialchars($d['name']) ?>"
-                         class="w-full h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy">
-                <?php else: ?>
-                    <div class="w-full h-full flex items-center justify-center">
-                        <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-10 h-10 object-contain opacity-25">
-                    </div>
-                <?php endif; ?>
-            </div>
-            <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($d['name']) ?></p>
-        </a>
-        <?php endforeach; ?>
+    <div class="carousel-wrap">
+        <button class="carousel-btn prev" aria-label="Anterior">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="snap-carousel">
+            <?php foreach ($recentDogs as $d): ?>
+            <a href="/galgos/<?= htmlspecialchars($d['slug']) ?>" class="snap-card group text-center">
+                <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 mb-2 ring-1 ring-gray-200 group-hover:ring-2 group-hover:ring-galgo-red transition">
+                    <?php if ($d['photo_thumb']): ?>
+                        <img src="<?= \Helpers\Asset::url($d['photo_thumb']) ?>"
+                             alt="Galgo Español <?= htmlspecialchars($d['name']) ?>"
+                             class="w-full h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy">
+                    <?php else: ?>
+                        <div class="w-full h-full flex items-center justify-center">
+                            <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-10 h-10 object-contain opacity-25">
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($d['name']) ?></p>
+                <p class="text-[10px] text-gray-400"><?= $d['gender'] === 'male' ? 'Macho' : ($d['gender'] === 'female' ? 'Hembra' : '') ?></p>
+            </a>
+            <?php endforeach; ?>
+        </div>
+        <button class="carousel-btn next" aria-label="Siguiente">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
     </div>
 </section>
 <?php endif; ?>
 
 <!-- Sementales destacados -->
 <?php if (!empty($stallions)): ?>
-<section class="bg-gray-50 py-12">
+<section class="bg-gray-50 py-12" data-reveal>
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-display font-bold text-galgo-dark">Sementales Destacados</h2>
             <a href="/sementales" class="text-galgo-red hover:underline text-sm font-medium">Ver todos →</a>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-            <?php foreach ($stallions as $s): ?>
-            <a href="/galgos/<?= htmlspecialchars($s['slug']) ?>" class="group text-center">
-                <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 mb-2 ring-2 ring-galgo-gold group-hover:ring-4 transition">
-                    <?php if ($s['photo_webp']): ?>
-                        <img src="<?= \Helpers\Asset::url($s['photo_webp']) ?>"
-                             alt="Semental Galgo Español <?= htmlspecialchars($s['name']) ?>"
-                             class="w-full h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy">
-                    <?php else: ?>
-                        <div class="w-full h-full flex items-center justify-center">
-                            <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-12 h-12 object-contain opacity-25">
-                        </div>
+        <div class="carousel-wrap">
+            <button class="carousel-btn prev" aria-label="Anterior">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="snap-carousel">
+                <?php foreach ($stallions as $s): ?>
+                <a href="/galgos/<?= htmlspecialchars($s['slug']) ?>" class="snap-card-lg group text-center">
+                    <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 mb-2 ring-2 ring-galgo-gold group-hover:ring-4 transition">
+                        <?php if ($s['photo_webp']): ?>
+                            <img src="<?= \Helpers\Asset::url($s['photo_webp']) ?>"
+                                 alt="Semental Galgo Español <?= htmlspecialchars($s['name']) ?>"
+                                 class="w-full h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy">
+                        <?php else: ?>
+                            <div class="w-full h-full flex items-center justify-center">
+                                <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-12 h-12 object-contain opacity-25">
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($s['name']) ?></p>
+                    <?php if (!empty($s['club']) || !empty($s['country'])): ?>
+                    <p class="text-xs text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$s['club'] ?? null, $s['country'] ?? null]))) ?></p>
                     <?php endif; ?>
-                </div>
-                <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($s['name']) ?></p>
-                <?php if (!empty($s['club']) || !empty($s['country'])): ?>
-                <p class="text-xs text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$s['club'] ?? null, $s['country'] ?? null]))) ?></p>
-                <?php endif; ?>
-            </a>
-            <?php endforeach; ?>
+                    <span class="inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded-full bg-galgo-gold/20 text-yellow-800 font-semibold">Semental</span>
+                </a>
+                <?php endforeach; ?>
+            </div>
+            <button class="carousel-btn next" aria-label="Siguiente">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
         </div>
     </div>
 </section>
@@ -210,39 +237,48 @@ require APP_PATH . '/Views/layout/header.php';
 
 <!-- Reproductoras destacadas -->
 <?php if (!empty($broodmares)): ?>
-<section class="py-12">
+<section class="py-12" data-reveal>
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-display font-bold text-galgo-dark">Reproductoras Destacadas</h2>
             <a href="/reproductoras" class="text-galgo-red hover:underline text-sm font-medium">Ver todas →</a>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
-            <?php foreach ($broodmares as $b): ?>
-            <a href="/galgos/<?= htmlspecialchars($b['slug']) ?>" class="group text-center">
-                <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 mb-2 ring-2 ring-galgo-red group-hover:ring-4 transition">
-                    <?php if ($b['photo_webp']): ?>
-                        <img src="<?= \Helpers\Asset::url($b['photo_webp']) ?>"
-                             alt="Reproductora Galgo Español <?= htmlspecialchars($b['name']) ?>"
-                             class="w-full h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy">
-                    <?php else: ?>
-                        <div class="w-full h-full flex items-center justify-center">
-                            <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-12 h-12 object-contain opacity-25">
-                        </div>
+        <div class="carousel-wrap">
+            <button class="carousel-btn prev" aria-label="Anterior">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="snap-carousel">
+                <?php foreach ($broodmares as $b): ?>
+                <a href="/galgos/<?= htmlspecialchars($b['slug']) ?>" class="snap-card-lg group text-center">
+                    <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 mb-2 ring-2 ring-galgo-red group-hover:ring-4 transition">
+                        <?php if ($b['photo_webp']): ?>
+                            <img src="<?= \Helpers\Asset::url($b['photo_webp']) ?>"
+                                 alt="Reproductora Galgo Español <?= htmlspecialchars($b['name']) ?>"
+                                 class="w-full h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy">
+                        <?php else: ?>
+                            <div class="w-full h-full flex items-center justify-center">
+                                <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-12 h-12 object-contain opacity-25">
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($b['name']) ?></p>
+                    <?php if (!empty($b['club']) || !empty($b['country'])): ?>
+                    <p class="text-xs text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$b['club'] ?? null, $b['country'] ?? null]))) ?></p>
                     <?php endif; ?>
-                </div>
-                <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($b['name']) ?></p>
-                <?php if (!empty($b['club']) || !empty($b['country'])): ?>
-                <p class="text-xs text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$b['club'] ?? null, $b['country'] ?? null]))) ?></p>
-                <?php endif; ?>
-            </a>
-            <?php endforeach; ?>
+                    <span class="inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded-full bg-galgo-red/10 text-red-700 font-semibold">Reproductora</span>
+                </a>
+                <?php endforeach; ?>
+            </div>
+            <button class="carousel-btn next" aria-label="Siguiente">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
         </div>
     </div>
 </section>
 <?php endif; ?>
 
 <!-- Texto SEO — ¿Qué es el Galgo Español? -->
-<section class="bg-galgo-dark text-white py-16">
+<section class="bg-galgo-dark text-white py-16" data-reveal>
     <div class="container mx-auto px-4 max-w-4xl">
         <h2 class="text-3xl font-display font-bold text-galgo-gold mb-8 text-center">¿Qué es el Galgo Español?</h2>
         <div class="grid md:grid-cols-3 gap-8 text-sm text-gray-300 leading-relaxed">
@@ -263,7 +299,7 @@ require APP_PATH . '/Views/layout/header.php';
 </section>
 
 <!-- Cómo funciona -->
-<section class="container mx-auto px-4 py-16 text-center">
+<section class="container mx-auto px-4 py-16 text-center" data-reveal>
     <h2 class="text-3xl font-display font-bold mb-4">¿Cómo funciona Galgospedia?</h2>
     <p class="text-gray-500 mb-12 max-w-xl mx-auto">Registra tu galgo, construye su árbol genealógico y conéctate con otros criadores. Totalmente gratis.</p>
     <div class="grid md:grid-cols-3 gap-8">
@@ -286,7 +322,7 @@ require APP_PATH . '/Views/layout/header.php';
 </section>
 
 <!-- FAQ -->
-<section class="bg-gray-50 py-16">
+<section class="bg-gray-50 py-16" data-reveal>
     <div class="container mx-auto px-4 max-w-3xl">
         <h2 class="text-3xl font-display font-bold text-center mb-10">Preguntas frecuentes sobre el Galgo Español</h2>
         <div class="space-y-4" x-data="{ open: null }">
@@ -598,5 +634,44 @@ require APP_PATH . '/Views/layout/header.php';
     </div>
 </section>
 <?php endif; ?>
+
+<script>
+(function(){
+    // Scroll reveal
+    const obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }});
+    }, {threshold: 0.1});
+    document.querySelectorAll('[data-reveal]').forEach(function(el){ obs.observe(el); });
+
+    // Count-up for stat numbers
+    document.querySelectorAll('.stat-num').forEach(function(el){
+        var target = parseInt(el.dataset.target, 10);
+        if(!target) return;
+        var dur = 1200, steps = 40, step = 0;
+        var inc = target / steps;
+        var t = setInterval(function(){
+            step++;
+            el.textContent = step >= steps ? target : Math.round(inc * step);
+            if(step >= steps) clearInterval(t);
+        }, dur / steps);
+    });
+
+    // Carousels
+    document.querySelectorAll('.carousel-wrap').forEach(function(wrap){
+        var track = wrap.querySelector('.snap-carousel');
+        var prev  = wrap.querySelector('.carousel-btn.prev');
+        var next  = wrap.querySelector('.carousel-btn.next');
+        if(!track || !prev || !next) return;
+        function sync(){
+            prev.disabled = track.scrollLeft < 8;
+            next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 8;
+        }
+        prev.addEventListener('click', function(){ track.scrollBy({left: -track.clientWidth * 0.75, behavior:'smooth'}); });
+        next.addEventListener('click', function(){ track.scrollBy({left:  track.clientWidth * 0.75, behavior:'smooth'}); });
+        track.addEventListener('scroll', sync, {passive:true});
+        sync();
+    });
+})();
+</script>
 
 <?php require APP_PATH . '/Views/layout/footer.php'; ?>

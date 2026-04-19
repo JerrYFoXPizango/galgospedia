@@ -105,6 +105,17 @@ class Dog extends BaseModel
     }
 
     /** Paginated public directory */
+    public function getRecent(int $limit = 12): array
+    {
+        $stmt = $this->db->prepare(
+            "SELECT d.id, d.slug, d.name, d.gender, d.photo_thumb, d.created_at
+             FROM dogs d WHERE d.is_public = 1
+             ORDER BY d.created_at DESC LIMIT ?"
+        );
+        $stmt->execute([$limit]);
+        return $stmt->fetchAll();
+    }
+
     public function directory(int $page = 1, int $perPage = 24, array $filters = []): array
     {
         $offset = ($page - 1) * $perPage;
