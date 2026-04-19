@@ -10,8 +10,8 @@
 [data-reveal].visible{opacity:1;transform:none}
 .snap-carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:.75rem;padding-bottom:.5rem;scrollbar-width:none}
 .snap-carousel::-webkit-scrollbar{display:none}
-.snap-carousel>.snap-card{scroll-snap-align:start;flex-shrink:0;width:9rem}
-.snap-carousel>.snap-card-lg{scroll-snap-align:start;flex-shrink:0;width:11rem}
+.snap-carousel>.snap-card{scroll-snap-align:start;flex-shrink:0;width:7rem}
+.snap-carousel>.snap-card-lg{scroll-snap-align:start;flex-shrink:0;width:8.5rem}
 .carousel-wrap{position:relative}
 .carousel-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,.95);border:1px solid #e5e7eb;border-radius:9999px;width:2.2rem;height:2.2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.12);transition:box-shadow .2s,opacity .2s;padding:0}
 .carousel-btn:hover{box-shadow:0 4px 16px rgba(0,0,0,.18)}

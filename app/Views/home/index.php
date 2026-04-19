@@ -158,9 +158,9 @@ require APP_PATH . '/Views/layout/header.php';
 
 <!-- Galgos añadidos recientemente -->
 <?php if (!empty($recentDogs)): ?>
-<section class="container mx-auto px-4 py-12" data-reveal>
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="text-2xl font-display font-bold text-galgo-dark">Últimos Galgos Registrados</h2>
+<section class="container mx-auto px-4 py-8" data-reveal>
+    <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-display font-bold text-galgo-dark">Últimos Galgos Registrados</h2>
         <a href="/galgos" class="text-galgo-red hover:underline text-sm font-medium">Ver directorio →</a>
     </div>
     <div class="carousel-wrap">
@@ -170,16 +170,16 @@ require APP_PATH . '/Views/layout/header.php';
         <div class="snap-carousel">
             <?php foreach ($recentDogs as $d): ?>
             <a href="/galgos/<?= htmlspecialchars($d['slug']) ?>" class="snap-card group text-center">
-                <div class="rounded-xl overflow-hidden bg-gray-100 mb-2 ring-1 ring-gray-200 group-hover:ring-2 group-hover:ring-galgo-red transition" style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;">
+                <div class="rounded-lg overflow-hidden bg-gray-100 mb-1.5 ring-1 ring-gray-200 group-hover:ring-2 group-hover:ring-galgo-red transition" style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;">
                     <?php if ($d['photo_thumb']): ?>
                         <img src="<?= \Helpers\Asset::url($d['photo_thumb']) ?>"
                              alt="<?= htmlspecialchars($d['name']) ?>"
                              class="w-full h-full group-hover:scale-105 transition duration-300" style="object-fit:contain;" loading="lazy">
                     <?php else: ?>
-                        <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-8 h-8 object-contain opacity-20">
+                        <img src="/logo/logo512-512.png" alt="" class="w-6 h-6 object-contain opacity-20">
                     <?php endif; ?>
                 </div>
-                <p class="text-xs font-semibold truncate text-gray-700" title="<?= htmlspecialchars($d['name']) ?>"><?= htmlspecialchars($d['name']) ?></p>
+                <p class="text-[11px] font-semibold truncate text-gray-700 leading-tight" title="<?= htmlspecialchars($d['name']) ?>"><?= htmlspecialchars($d['name']) ?></p>
             </a>
             <?php endforeach; ?>
         </div>
@@ -192,10 +192,10 @@ require APP_PATH . '/Views/layout/header.php';
 
 <!-- Sementales destacados -->
 <?php if (!empty($stallions)): ?>
-<section class="bg-gray-50 py-12" data-reveal>
+<section class="bg-gray-50 py-8" data-reveal>
     <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-display font-bold text-galgo-dark">Sementales Destacados</h2>
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-display font-bold text-galgo-dark">Sementales Destacados</h2>
             <a href="/sementales" class="text-galgo-red hover:underline text-sm font-medium">Ver todos →</a>
         </div>
         <div class="carousel-wrap">
@@ -205,20 +205,18 @@ require APP_PATH . '/Views/layout/header.php';
             <div class="snap-carousel">
                 <?php foreach ($stallions as $s): ?>
                 <a href="/galgos/<?= htmlspecialchars($s['slug']) ?>" class="snap-card-lg group text-center">
-                    <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 mb-2 ring-2 ring-galgo-gold group-hover:ring-4 transition">
+                    <div class="rounded-lg overflow-hidden bg-gray-100 mb-1.5 ring-2 ring-galgo-gold group-hover:ring-[3px] transition" style="width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;">
                         <?php if ($s['photo_webp']): ?>
                             <img src="<?= \Helpers\Asset::url($s['photo_webp']) ?>"
-                                 alt="Semental Galgo Español <?= htmlspecialchars($s['name']) ?>"
-                                 class="w-full h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy">
+                                 alt="<?= htmlspecialchars($s['name']) ?>"
+                                 class="w-full h-full group-hover:scale-105 transition duration-300" style="object-fit:contain;" loading="lazy">
                         <?php else: ?>
-                            <div class="w-full h-full flex items-center justify-center">
-                                <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-12 h-12 object-contain opacity-25">
-                            </div>
+                            <img src="/logo/logo512-512.png" alt="" class="w-8 h-8 object-contain opacity-20">
                         <?php endif; ?>
                     </div>
-                    <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($s['name']) ?></p>
-                    <?php if (!empty($s['club']) || !empty($s['country'])): ?>
-                    <p class="text-[10px] text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$s['club'] ?? null, $s['country'] ?? null]))) ?></p>
+                    <p class="text-[11px] font-semibold truncate text-gray-700 leading-tight" title="<?= htmlspecialchars($s['name']) ?>"><?= htmlspecialchars($s['name']) ?></p>
+                    <?php if (!empty($s['country'])): ?>
+                    <p class="text-[10px] text-gray-400 truncate"><?= htmlspecialchars($s['country']) ?></p>
                     <?php endif; ?>
                 </a>
                 <?php endforeach; ?>
@@ -233,10 +231,10 @@ require APP_PATH . '/Views/layout/header.php';
 
 <!-- Reproductoras destacadas -->
 <?php if (!empty($broodmares)): ?>
-<section class="py-12" data-reveal>
+<section class="py-8" data-reveal>
     <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-display font-bold text-galgo-dark">Reproductoras Destacadas</h2>
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-display font-bold text-galgo-dark">Reproductoras Destacadas</h2>
             <a href="/reproductoras" class="text-galgo-red hover:underline text-sm font-medium">Ver todas →</a>
         </div>
         <div class="carousel-wrap">
@@ -246,20 +244,18 @@ require APP_PATH . '/Views/layout/header.php';
             <div class="snap-carousel">
                 <?php foreach ($broodmares as $b): ?>
                 <a href="/galgos/<?= htmlspecialchars($b['slug']) ?>" class="snap-card-lg group text-center">
-                    <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 mb-2 ring-2 ring-galgo-red group-hover:ring-4 transition">
+                    <div class="rounded-lg overflow-hidden bg-gray-100 mb-1.5 ring-2 ring-galgo-red group-hover:ring-[3px] transition" style="width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;">
                         <?php if ($b['photo_webp']): ?>
                             <img src="<?= \Helpers\Asset::url($b['photo_webp']) ?>"
-                                 alt="Reproductora Galgo Español <?= htmlspecialchars($b['name']) ?>"
-                                 class="w-full h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy">
+                                 alt="<?= htmlspecialchars($b['name']) ?>"
+                                 class="w-full h-full group-hover:scale-105 transition duration-300" style="object-fit:contain;" loading="lazy">
                         <?php else: ?>
-                            <div class="w-full h-full flex items-center justify-center">
-                                <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-12 h-12 object-contain opacity-25">
-                            </div>
+                            <img src="/logo/logo512-512.png" alt="" class="w-8 h-8 object-contain opacity-20">
                         <?php endif; ?>
                     </div>
-                    <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($b['name']) ?></p>
-                    <?php if (!empty($b['club']) || !empty($b['country'])): ?>
-                    <p class="text-[10px] text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$b['club'] ?? null, $b['country'] ?? null]))) ?></p>
+                    <p class="text-[11px] font-semibold truncate text-gray-700 leading-tight" title="<?= htmlspecialchars($b['name']) ?>"><?= htmlspecialchars($b['name']) ?></p>
+                    <?php if (!empty($b['country'])): ?>
+                    <p class="text-[10px] text-gray-400 truncate"><?= htmlspecialchars($b['country']) ?></p>
                     <?php endif; ?>
                 </a>
                 <?php endforeach; ?>
