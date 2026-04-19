@@ -105,11 +105,11 @@ class Dog extends BaseModel
     }
 
     /** Paginated public directory */
-    public function getRecent(int $limit = 12): array
+    public function getRecent(int $limit = 16): array
     {
         $stmt = $this->db->prepare(
             "SELECT d.id, d.slug, d.name, d.gender, d.photo_thumb, d.created_at
-             FROM dogs d WHERE d.is_public = 1
+             FROM dogs d WHERE d.is_public = 1 AND d.photo_thumb IS NOT NULL
              ORDER BY d.created_at DESC LIMIT ?"
         );
         $stmt->execute([$limit]);

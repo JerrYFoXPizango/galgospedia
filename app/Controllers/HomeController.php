@@ -12,9 +12,10 @@ class HomeController extends BaseController
         $broodmareModel = new Broodmare();
         $dogModel       = new Dog();
 
-        $stallions       = $stallionModel->allActive(6);
-        $broodmares      = $broodmareModel->allActive(6);
-        $recentDogs      = $dogModel->getRecent(12);
+        $withPhoto = fn($d) => !empty($d['photo_webp']);
+        $stallions  = array_slice(array_values(array_filter($stallionModel->allActive(40), $withPhoto)), 0, 12);
+        $broodmares = array_slice(array_values(array_filter($broodmareModel->allActive(40), $withPhoto)), 0, 12);
+        $recentDogs = $dogModel->getRecent(16);
         $totalDogs       = $dogModel->countPublic();
         $totalStallions  = $stallionModel->countActive();
         $totalBroodmares = $broodmareModel->countActive();
