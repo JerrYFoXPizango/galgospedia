@@ -8,7 +8,7 @@
 /* === Landing improvements === */
 [data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
 [data-reveal].visible{opacity:1;transform:none}
-.snap-carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:.75rem;padding-bottom:.5rem;scrollbar-width:none}
+.snap-carousel{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;gap:.75rem;padding:4px 4px 10px;scrollbar-width:none}
 .snap-carousel::-webkit-scrollbar{display:none}
 .snap-carousel>.snap-card{scroll-snap-align:start;flex-shrink:0;width:7rem}
 .snap-carousel>.snap-card-lg{scroll-snap-align:start;flex-shrink:0;width:8.5rem}
