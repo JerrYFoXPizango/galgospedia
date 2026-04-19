@@ -176,7 +176,7 @@ require APP_PATH . '/Views/layout/header.php';
                              alt="<?= htmlspecialchars($d['name']) ?>"
                              class="w-full h-full group-hover:scale-105 transition duration-300" style="object-fit:contain;" loading="lazy">
                     <?php else: ?>
-                        <img src="/logo/logo512-512.png" alt="" class="w-6 h-6 object-contain opacity-20">
+                        <span style="font-size:1.5rem;font-weight:800;color:#9ca3af;opacity:.4;line-height:1;user-select:none;"><?= mb_strtoupper(mb_substr($d['name'], 0, 1)) ?></span>
                     <?php endif; ?>
                 </div>
                 <p class="text-[11px] font-semibold truncate text-gray-700 leading-tight" title="<?= htmlspecialchars($d['name']) ?>"><?= htmlspecialchars($d['name']) ?></p>
@@ -205,13 +205,13 @@ require APP_PATH . '/Views/layout/header.php';
             <div class="snap-carousel">
                 <?php foreach ($stallions as $s): ?>
                 <a href="/galgos/<?= htmlspecialchars($s['slug']) ?>" class="snap-card-lg group text-center">
-                    <div class="rounded-lg overflow-hidden bg-gray-100 mb-1.5 ring-2 ring-galgo-gold group-hover:ring-[3px] transition" style="width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;">
+                    <div class="rounded-lg overflow-hidden mb-1.5 ring-2 ring-galgo-gold group-hover:ring-[3px] transition" style="width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:#faf7f0;">
                         <?php if ($s['photo_webp']): ?>
                             <img src="<?= \Helpers\Asset::url($s['photo_webp']) ?>"
                                  alt="<?= htmlspecialchars($s['name']) ?>"
                                  class="w-full h-full group-hover:scale-105 transition duration-300" style="object-fit:contain;" loading="lazy">
                         <?php else: ?>
-                            <img src="/logo/logo512-512.png" alt="" class="w-8 h-8 object-contain opacity-20">
+                            <span style="font-size:2rem;font-weight:800;color:#b45309;opacity:.35;line-height:1;user-select:none;"><?= mb_strtoupper(mb_substr($s['name'], 0, 1)) ?></span>
                         <?php endif; ?>
                     </div>
                     <p class="text-[11px] font-semibold truncate text-gray-700 leading-tight" title="<?= htmlspecialchars($s['name']) ?>"><?= htmlspecialchars($s['name']) ?></p>
@@ -244,13 +244,13 @@ require APP_PATH . '/Views/layout/header.php';
             <div class="snap-carousel">
                 <?php foreach ($broodmares as $b): ?>
                 <a href="/galgos/<?= htmlspecialchars($b['slug']) ?>" class="snap-card-lg group text-center">
-                    <div class="rounded-lg overflow-hidden bg-gray-100 mb-1.5 ring-2 ring-galgo-red group-hover:ring-[3px] transition" style="width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;">
+                    <div class="rounded-lg overflow-hidden mb-1.5 ring-2 ring-galgo-red group-hover:ring-[3px] transition" style="width:100%;aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;background:#fdf5f5;">
                         <?php if ($b['photo_webp']): ?>
                             <img src="<?= \Helpers\Asset::url($b['photo_webp']) ?>"
                                  alt="<?= htmlspecialchars($b['name']) ?>"
                                  class="w-full h-full group-hover:scale-105 transition duration-300" style="object-fit:contain;" loading="lazy">
                         <?php else: ?>
-                            <img src="/logo/logo512-512.png" alt="" class="w-8 h-8 object-contain opacity-20">
+                            <span style="font-size:2rem;font-weight:800;color:#dc2626;opacity:.25;line-height:1;user-select:none;"><?= mb_strtoupper(mb_substr($b['name'], 0, 1)) ?></span>
                         <?php endif; ?>
                     </div>
                     <p class="text-[11px] font-semibold truncate text-gray-700 leading-tight" title="<?= htmlspecialchars($b['name']) ?>"><?= htmlspecialchars($b['name']) ?></p>

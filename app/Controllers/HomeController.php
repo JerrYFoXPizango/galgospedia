@@ -12,9 +12,19 @@ class HomeController extends BaseController
         $broodmareModel = new Broodmare();
         $dogModel       = new Dog();
 
-        $withPhoto = fn($d) => !empty($d['photo_webp']);
-        $stallions  = array_slice(array_values(array_filter($stallionModel->allActive(40), $withPhoto)), 0, 12);
-        $broodmares = array_slice(array_values(array_filter($broodmareModel->allActive(40), $withPhoto)), 0, 12);
+        $prioritize = function(array $list): array {
+            usort($list, function($a, $b) {
+                $fo = ($a['featured_order'] ?? 99) <=> ($b['featured_order'] ?? 99);
+                if ($fo !== 0) return $fo;
+                $ph = (!empty($b['photo_webp']) ? 1 : 0) <=> (!empty($a['photo_webp']) ? 1 : 0);
+                if ($ph !== 0) return $ph;
+                return strcmp($a['name'], $b['name']);
+            });
+            return $list;
+        };
+
+        $stallions  = $prioritize($stallionModel->allActive(20));
+        $broodmares = $prioritize($broodmareModel->allActive(20));
         $recentDogs = $dogModel->getRecent(16);
         $totalDogs       = $dogModel->countPublic();
         $totalStallions  = $stallionModel->countActive();
