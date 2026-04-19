@@ -170,19 +170,16 @@ require APP_PATH . '/Views/layout/header.php';
         <div class="snap-carousel">
             <?php foreach ($recentDogs as $d): ?>
             <a href="/galgos/<?= htmlspecialchars($d['slug']) ?>" class="snap-card group text-center">
-                <div class="aspect-square rounded-xl overflow-hidden bg-gray-200 mb-2 ring-1 ring-gray-200 group-hover:ring-2 group-hover:ring-galgo-red transition">
+                <div class="rounded-xl overflow-hidden bg-gray-100 mb-2 ring-1 ring-gray-200 group-hover:ring-2 group-hover:ring-galgo-red transition" style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;">
                     <?php if ($d['photo_thumb']): ?>
                         <img src="<?= \Helpers\Asset::url($d['photo_thumb']) ?>"
-                             alt="Galgo Español <?= htmlspecialchars($d['name']) ?>"
-                             class="w-full h-full object-contain group-hover:scale-105 transition duration-300" loading="lazy">
+                             alt="<?= htmlspecialchars($d['name']) ?>"
+                             class="w-full h-full group-hover:scale-105 transition duration-300" style="object-fit:contain;" loading="lazy">
                     <?php else: ?>
-                        <div class="w-full h-full flex items-center justify-center">
-                            <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-10 h-10 object-contain opacity-25">
-                        </div>
+                        <img src="/logo/logo512-512.png" alt="Galgospedia" class="w-8 h-8 object-contain opacity-20">
                     <?php endif; ?>
                 </div>
-                <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($d['name']) ?></p>
-                <p class="text-[10px] text-gray-400"><?= $d['gender'] === 'male' ? 'Macho' : ($d['gender'] === 'female' ? 'Hembra' : '') ?></p>
+                <p class="text-xs font-semibold truncate text-gray-700" title="<?= htmlspecialchars($d['name']) ?>"><?= htmlspecialchars($d['name']) ?></p>
             </a>
             <?php endforeach; ?>
         </div>
