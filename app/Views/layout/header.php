@@ -48,9 +48,16 @@
     <!-- Print / PDF styles -->
     <link rel="stylesheet" href="/css/print.css">
 
-    <!-- Preload hero font -->
+    <!-- Preconnect CDNs -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <?php
+        $r2Host = parse_url(\Config\Config::r2PublicUrl(), PHP_URL_HOST);
+        if ($r2Host):
+    ?>
+    <link rel="preconnect" href="https://<?= htmlspecialchars($r2Host) ?>">
+    <link rel="dns-prefetch" href="https://<?= htmlspecialchars($r2Host) ?>">
+    <?php endif; ?>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 
     <!-- Alpine.js (deferred) -->

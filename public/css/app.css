@@ -22,3 +22,4 @@
 .activity-dot{width:.5rem;height:.5rem;border-radius:9999px;background:#22c55e;flex-shrink:0;animation:pulseDot 2s ease-in-out infinite}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .img-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}
+@media(max-width:640px){.carousel-btn{width:2.75rem;height:2.75rem}.carousel-btn.prev{left:-.5rem}.carousel-btn.next{right:-.5rem}}

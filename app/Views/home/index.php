@@ -134,19 +134,22 @@ require APP_PATH . '/Views/layout/header.php';
 
 <!-- Stats bar -->
 <section class="bg-galgo-red text-white py-4">
-    <div class="container mx-auto px-4 flex flex-wrap items-center justify-center gap-6 text-sm font-medium">
-        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold stat-num" data-target="<?= $totalDogs ?>">0</span> Galgos registrados</div>
-        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold stat-num" data-target="<?= $totalStallions ?>">0</span> Sementales</div>
-        <div class="text-center"><span class="text-2xl font-bold text-galgo-gold stat-num" data-target="<?= $totalBroodmares ?>">0</span> Reproductoras</div>
-        <!-- Buscador rápido -->
-        <form action="/galgos" method="GET" class="flex items-center gap-2 ml-4">
-            <input type="text" name="q" placeholder="🔍 Buscar galgo…"
-                   class="w-56 px-4 py-1.5 rounded-full text-galgo-dark text-sm bg-white/90 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-galgo-gold focus:bg-white transition">
-            <button type="submit"
-                    class="px-4 py-1.5 rounded-full bg-galgo-gold text-white text-sm font-semibold hover:bg-yellow-500 transition">
-                Buscar
-            </button>
-        </form>
+    <div class="container mx-auto px-4 py-2">
+        <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 text-sm font-medium">
+            <div class="text-center"><span class="text-xl sm:text-2xl font-bold text-galgo-gold stat-num" data-target="<?= $totalDogs ?>">0</span><span class="ml-1">Galgos</span></div>
+            <div class="hidden sm:block w-px h-4 bg-white/20"></div>
+            <div class="text-center"><span class="text-xl sm:text-2xl font-bold text-galgo-gold stat-num" data-target="<?= $totalStallions ?>">0</span><span class="ml-1">Sementales</span></div>
+            <div class="hidden sm:block w-px h-4 bg-white/20"></div>
+            <div class="text-center"><span class="text-xl sm:text-2xl font-bold text-galgo-gold stat-num" data-target="<?= $totalBroodmares ?>">0</span><span class="ml-1">Reproductoras</span></div>
+            <!-- Buscador rápido -->
+            <form action="/galgos" method="GET" class="flex items-center gap-2 w-full sm:w-auto sm:ml-4 mt-2 sm:mt-0">
+                <input type="text" name="q" placeholder="Buscar galgo…"
+                       class="flex-1 sm:w-48 px-4 py-1.5 rounded-full text-galgo-dark text-sm bg-white/90 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-galgo-gold focus:bg-white transition">
+                <button type="submit" class="px-4 py-1.5 rounded-full bg-galgo-gold text-white text-sm font-semibold hover:bg-yellow-500 transition">
+                    Buscar
+                </button>
+            </form>
+        </div>
     </div>
 </section>
 
@@ -171,13 +174,14 @@ require APP_PATH . '/Views/layout/header.php';
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
         <div class="snap-carousel">
-            <?php foreach ($recentDogs as $d): ?>
+            <?php $firstCard = true; foreach ($recentDogs as $d): ?>
             <a href="/galgos/<?= htmlspecialchars($d['slug']) ?>" class="snap-card group text-center">
                 <div class="rounded-lg overflow-hidden bg-gray-100 mb-1.5 ring-1 ring-gray-200 group-hover:ring-2 group-hover:ring-galgo-red transition" style="width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;">
                     <?php if ($d['photo_thumb']): ?>
                         <img src="<?= \Helpers\Asset::url($d['photo_thumb']) ?>"
                              alt="<?= htmlspecialchars($d['name']) ?>"
-                             class="w-full h-full group-hover:scale-105 transition duration-300" style="object-fit:contain;" loading="lazy">
+                             class="w-full h-full group-hover:scale-105 transition duration-300" style="object-fit:contain;"
+                             <?= $firstCard ? 'fetchpriority="high"' : 'loading="lazy"' ?>><?php $firstCard = false; ?>
                     <?php else: ?>
                         <span style="font-size:1.5rem;font-weight:800;color:#9ca3af;opacity:.4;line-height:1;user-select:none;"><?= mb_strtoupper(mb_substr($d['name'], 0, 1)) ?></span>
                     <?php endif; ?>

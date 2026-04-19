@@ -8,7 +8,7 @@ use Config\{Config, Database};
 
 class SitemapController extends BaseController
 {
-    public function index(): void
+    public function index(array $p = []): void
     {
         $base = 'https://galgospedia.com';
         $now  = date('Y-m-d');
@@ -50,6 +50,20 @@ class SitemapController extends BaseController
                 'lastmod'    => substr($dog['updated_at'] ?? $now, 0, 10),
                 'changefreq' => 'monthly',
                 'priority'   => '0.7',
+            ];
+        }
+
+        // ── Clubs ─────────────────────────────────────────────────────
+        $clubs = $pdo->query(
+            "SELECT slug, updated_at FROM clubs ORDER BY updated_at DESC"
+        )->fetchAll();
+
+        foreach ($clubs as $club) {
+            $urls[] = [
+                'loc'        => $base . '/clubs/' . rawurlencode($club['slug']),
+                'lastmod'    => substr($club['updated_at'] ?? $now, 0, 10),
+                'changefreq' => 'monthly',
+                'priority'   => '0.6',
             ];
         }
 
