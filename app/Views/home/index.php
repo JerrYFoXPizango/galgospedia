@@ -221,9 +221,8 @@ require APP_PATH . '/Views/layout/header.php';
                     </div>
                     <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($s['name']) ?></p>
                     <?php if (!empty($s['club']) || !empty($s['country'])): ?>
-                    <p class="text-xs text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$s['club'] ?? null, $s['country'] ?? null]))) ?></p>
+                    <p class="text-[10px] text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$s['club'] ?? null, $s['country'] ?? null]))) ?></p>
                     <?php endif; ?>
-                    <span class="inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded-full bg-galgo-gold/20 text-yellow-800 font-semibold">Semental</span>
                 </a>
                 <?php endforeach; ?>
             </div>
@@ -263,9 +262,8 @@ require APP_PATH . '/Views/layout/header.php';
                     </div>
                     <p class="text-xs font-semibold truncate text-gray-700"><?= htmlspecialchars($b['name']) ?></p>
                     <?php if (!empty($b['club']) || !empty($b['country'])): ?>
-                    <p class="text-xs text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$b['club'] ?? null, $b['country'] ?? null]))) ?></p>
+                    <p class="text-[10px] text-gray-400 truncate"><?= htmlspecialchars(implode(' · ', array_filter([$b['club'] ?? null, $b['country'] ?? null]))) ?></p>
                     <?php endif; ?>
-                    <span class="inline-block mt-1 text-[10px] px-1.5 py-0.5 rounded-full bg-galgo-red/10 text-red-700 font-semibold">Reproductora</span>
                 </a>
                 <?php endforeach; ?>
             </div>
