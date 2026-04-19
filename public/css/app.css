@@ -20,3 +20,5 @@
 .carousel-btn:disabled{opacity:.2;pointer-events:none}
 .activity-strip{display:flex;align-items:center;gap:.5rem;font-size:.75rem;color:#6b7280;padding:.4rem .75rem;background:#fafaf9;border-top:1px solid #f0ede8;border-bottom:1px solid #f0ede8}
 .activity-dot{width:.5rem;height:.5rem;border-radius:9999px;background:#22c55e;flex-shrink:0;animation:pulseDot 2s ease-in-out infinite}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.img-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite}

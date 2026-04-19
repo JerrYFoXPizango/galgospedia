@@ -126,6 +126,9 @@ require APP_PATH . '/Views/layout/header.php';
                 <a href="/galgos/nuevo" class="btn-outline px-8 py-3 text-lg">+ Añadir mi Galgo</a>
             <?php endif; ?>
         </div>
+        <?php if (!\Services\AuthService::isLoggedIn()): ?>
+        <p class="text-gray-400 text-sm mt-4">Sin tarjeta · Sin cuotas · En menos de un minuto</p>
+        <?php endif; ?>
     </div>
 </section>
 
@@ -294,18 +297,31 @@ require APP_PATH . '/Views/layout/header.php';
     <h2 class="text-3xl font-display font-bold mb-4">¿Cómo funciona Galgospedia?</h2>
     <p class="text-gray-500 mb-12 max-w-xl mx-auto">Registra tu galgo, construye su árbol genealógico y conéctate con otros criadores. Totalmente gratis.</p>
     <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-            <div class="text-5xl mb-4">📸</div>
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col items-center">
+            <div class="w-14 h-14 rounded-2xl bg-galgo-red/10 flex items-center justify-center mb-5">
+                <svg class="w-7 h-7 text-galgo-red" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+            </div>
             <h3 class="font-bold text-lg mb-2">Registra tu Galgo</h3>
             <p class="text-gray-500 text-sm">Añade una foto y los datos de tu galgo. La imagen se optimiza automáticamente a WebP y se guarda en la nube.</p>
         </div>
-        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-            <div class="text-5xl mb-4">🌳</div>
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col items-center">
+            <div class="w-14 h-14 rounded-2xl bg-galgo-gold/15 flex items-center justify-center mb-5">
+                <svg class="w-7 h-7 text-yellow-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 13l4.553 2.276A1 1 0 0021 21.382V10.618a1 1 0 00-.553-.894L15 7m0 13V7m0 0L9 7"/>
+                </svg>
+            </div>
             <h3 class="font-bold text-lg mb-2">Construye el árbol</h3>
-            <p class="text-gray-500 text-sm">Vincula padre y madre. El árbol genealógico crece automáticamente con generaciones ilimitadas y calcula el COI (Coeficiente de Consanguinidad).</p>
+            <p class="text-gray-500 text-sm">Vincula padre y madre. El árbol genealógico crece automáticamente con generaciones ilimitadas y calcula el COI.</p>
         </div>
-        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-            <div class="text-5xl mb-4">🏆</div>
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col items-center">
+            <div class="w-14 h-14 rounded-2xl bg-gray-100 flex items-center justify-center mb-5">
+                <svg class="w-7 h-7 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+            </div>
             <h3 class="font-bold text-lg mb-2">Gestiona tu club</h3>
             <p class="text-gray-500 text-sm">Crea o únete a un club cinegético. Gestiona socios, eventos, documentos y bóveda de licencias desde la Oficina Virtual.</p>
         </div>
@@ -645,6 +661,16 @@ require APP_PATH . '/Views/layout/header.php';
             el.textContent = step >= steps ? target : Math.round(inc * step);
             if(step >= steps) clearInterval(t);
         }, dur / steps);
+    });
+
+    // Skeleton loading on carousel images
+    document.querySelectorAll('.snap-carousel img').forEach(function(img){
+        var wrap = img.closest('div');
+        if(!wrap) return;
+        wrap.classList.add('img-skeleton');
+        function done(){ wrap.classList.remove('img-skeleton'); }
+        if(img.complete && img.naturalWidth > 0){ done(); }
+        else { img.addEventListener('load', done); img.addEventListener('error', done); }
     });
 
     // Carousels
