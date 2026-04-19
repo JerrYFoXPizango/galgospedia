@@ -128,7 +128,7 @@ class Dog extends BaseModel
         $whereStr = implode(' AND ', $where);
         $stmt = $this->db->prepare(
             "SELECT d.id, d.slug, d.name, d.gender, d.photo_webp, d.photo_thumb,
-                    d.registration_number, d.date_of_birth, d.club, d.country,
+                    d.registration_number, d.date_of_birth, d.date_of_death, d.club, d.country,
                     s.id AS stallion_id, b.id AS broodmare_id
              FROM dogs d
              LEFT JOIN stallions s ON s.dog_id = d.id AND s.is_active = 1

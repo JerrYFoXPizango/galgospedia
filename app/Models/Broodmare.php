@@ -69,6 +69,12 @@ class Broodmare extends BaseModel
         return false;
     }
 
+    public function deactivateForDog(int $dogId): bool
+    {
+        $stmt = $this->db->prepare("UPDATE broodmares SET is_active = 0 WHERE dog_id = ?");
+        return $stmt->execute([$dogId]);
+    }
+
     public function remove(int $dogId): bool
     {
         $stmt = $this->db->prepare("DELETE FROM broodmares WHERE dog_id = ?");

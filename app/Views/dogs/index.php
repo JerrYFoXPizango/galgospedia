@@ -50,8 +50,19 @@ $paginator = new \Helpers\Paginator($total, $page, $perPage);
     <?php else: ?>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <?php foreach ($dogs as $dog): ?>
-            <a href="/galgos/<?= htmlspecialchars($dog['slug']) ?>" class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition">
-                <div class="h-40 bg-gray-100 overflow-hidden flex items-center justify-center">
+            <?php
+                $dogStatus  = \Helpers\DogStatus::of($dog);
+                $isDeceased = $dogStatus !== 'alive';
+                $isActive   = !$isDeceased && ($dog['stallion_id'] || $dog['broodmare_id']);
+            ?>
+            <a href="/galgos/<?= htmlspecialchars($dog['slug']) ?>"
+               class="group bg-white rounded-xl overflow-hidden shadow-sm border <?= $isDeceased ? 'border-gray-200 opacity-70' : 'border-gray-100' ?> hover:shadow-md transition relative">
+                <?php if ($isDeceased): ?>
+                    <div class="absolute top-1.5 right-1.5 z-10 bg-gray-700/80 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded-full">✝</div>
+                <?php elseif ($isActive): ?>
+                    <div class="absolute top-1.5 right-1.5 z-10"><span class="pulse-dot"></span></div>
+                <?php endif; ?>
+                <div class="h-40 bg-gray-100 overflow-hidden flex items-center justify-center <?= $isDeceased ? 'grayscale' : '' ?>">
                     <?php if ($dog['photo_webp']): ?>
                         <img src="<?= \Helpers\Asset::url($dog['photo_webp']) ?>"
                              alt="Galgo Español <?= htmlspecialchars($dog['name']) ?>"
@@ -68,10 +79,10 @@ $paginator = new \Helpers\Paginator($total, $page, $perPage);
                         <span class="text-xs px-1.5 py-0.5 rounded-full <?= $dog['gender'] === 'male' ? 'bg-blue-100 text-blue-700' : ($dog['gender'] === 'female' ? 'bg-pink-100 text-pink-700' : 'bg-gray-100 text-gray-500') ?>">
                             <?= $dog['gender'] === 'male' ? 'Macho' : ($dog['gender'] === 'female' ? 'Hembra' : '?') ?>
                         </span>
-                        <?php if ($dog['stallion_id']): ?>
+                        <?php if (!$isDeceased && $dog['stallion_id']): ?>
                             <span class="text-xs px-1.5 py-0.5 rounded-full bg-galgo-gold/20 text-yellow-800">S</span>
                         <?php endif; ?>
-                        <?php if ($dog['broodmare_id']): ?>
+                        <?php if (!$isDeceased && $dog['broodmare_id']): ?>
                             <span class="text-xs px-1.5 py-0.5 rounded-full bg-galgo-red/10 text-red-700">R</span>
                         <?php endif; ?>
                     </div>

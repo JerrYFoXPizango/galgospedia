@@ -70,6 +70,12 @@ class Stallion extends BaseModel
         return false;
     }
 
+    public function deactivateForDog(int $dogId): bool
+    {
+        $stmt = $this->db->prepare("UPDATE stallions SET is_active = 0 WHERE dog_id = ?");
+        return $stmt->execute([$dogId]);
+    }
+
     public function remove(int $dogId): bool
     {
         $stmt = $this->db->prepare("DELETE FROM stallions WHERE dog_id = ?");

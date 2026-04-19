@@ -138,6 +138,12 @@ class DogController extends BaseController
 
         $this->dogs->updateInfo($dog['id'], $data);
 
+        // Auto-deactivate as stallion/broodmare when date of death is set
+        if (!empty($data['date_of_death'])) {
+            (new Stallion())->deactivateForDog($dog['id']);
+            (new Broodmare())->deactivateForDog($dog['id']);
+        }
+
         if (!empty($_FILES['photo']['name'])) {
             try {
                 $processor = new ImageProcessor();

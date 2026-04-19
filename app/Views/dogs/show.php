@@ -110,7 +110,10 @@ require APP_PATH . '/Views/layout/header.php';
 
             <!-- Name & registration -->
             <div>
-                <h1 class="text-3xl font-display font-bold"><?= htmlspecialchars($dog['name']) ?></h1>
+                <div class="flex flex-wrap items-center gap-2">
+                    <h1 class="text-3xl font-display font-bold"><?= htmlspecialchars($dog['name']) ?></h1>
+                    <?= \Helpers\DogStatus::badge($dog, $isStallion || $isBreeder) ?>
+                </div>
                 <?php if ($dog['club']): ?>
                     <p class="text-gray-500 text-sm mt-1">Club: <strong><?= htmlspecialchars($dog['club']) ?></strong></p>
                 <?php endif; ?>

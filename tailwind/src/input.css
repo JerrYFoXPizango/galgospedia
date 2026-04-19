@@ -9,6 +9,11 @@
     animation: heroShift 10s ease infinite;
 }
 
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.75); }
+}
+
 @keyframes heroShift {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
@@ -119,6 +124,21 @@
     }
     .badge-gray {
         @apply inline-block px-2 py-0.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-600;
+    }
+
+    /* Dog status indicators */
+    .dog-status-alive {
+        @apply inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-800;
+    }
+    .dog-status-deceased {
+        @apply inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-semibold rounded-full bg-gray-200 text-gray-600;
+    }
+    .dog-status-presumed {
+        @apply inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-500 italic;
+    }
+    .pulse-dot {
+        @apply inline-block w-2 h-2 rounded-full bg-green-500;
+        animation: pulseDot 2s ease-in-out infinite;
     }
 
     /* Badges — disciplina de torneos */
