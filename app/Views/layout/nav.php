@@ -5,7 +5,7 @@ function navActive(string $path, string $current): string {
     return str_starts_with($current, $path) ? 'nav-link-active' : 'nav-link';
 }
 ?>
-<nav class="shadow-lg sticky top-0" style="z-index:1100;" style="background-color: #991b1b;" x-data="{ mobileOpen: false }">
+<nav class="shadow-lg sticky top-0" style="z-index:1100;background-color:#991b1b;" x-data="{ mobileOpen: false }">
     <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-16">
 

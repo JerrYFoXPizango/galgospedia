@@ -22,6 +22,8 @@ function initDetailMap(el) {
     var map = L.map(el, { zoomControl: true, scrollWheelZoom: false })
                .setView([lat, lng], 14);
 
+    setTimeout(function () { map.invalidateSize(); }, 100);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
@@ -55,6 +57,8 @@ function initPickerMap(el) {
 
     var map = L.map(el, { scrollWheelZoom: false })
                .setView([initLat, initLng], initZoom);
+
+    setTimeout(function () { map.invalidateSize(); }, 100);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
