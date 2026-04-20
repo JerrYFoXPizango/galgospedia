@@ -141,7 +141,7 @@ $isAdmin = \Services\AuthService::isAdmin();
         </div>
 
         <!-- Mapa picker -->
-        <div class="relative" style="isolation:isolate;z-index:0;">
+        <div class="relative">
             <div id="map-picker"
                  data-lat="<?= htmlspecialchars((string)($t['location_lat'] ?? '')) ?>"
                  data-lng="<?= htmlspecialchars((string)($t['location_lng'] ?? '')) ?>"
