@@ -19,10 +19,12 @@ function initDetailMap(el) {
     var lng  = parseFloat(el.dataset.lng);
     var name = el.dataset.name || 'Ubicación';
 
-    var map = L.map(el, { zoomControl: true, scrollWheelZoom: false })
-               .setView([lat, lng], 14);
+    var map = L.map(el, { zoomControl: true, scrollWheelZoom: false });
 
-    window.addEventListener('load', function () { map.invalidateSize(); }, { once: true });
+    setTimeout(function () {
+        map.invalidateSize();
+        map.setView([lat, lng], 14);
+    }, 50);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -55,10 +57,12 @@ function initPickerMap(el) {
     var initLng     = hasCoords ? parseFloat(lngInput.value) : -3.7038;
     var initZoom    = hasCoords ? 14 : 6;
 
-    var map = L.map(el, { scrollWheelZoom: false })
-               .setView([initLat, initLng], initZoom);
+    var map = L.map(el, { scrollWheelZoom: false });
 
-    window.addEventListener('load', function () { map.invalidateSize(); }, { once: true });
+    setTimeout(function () {
+        map.invalidateSize();
+        map.setView([initLat, initLng], initZoom);
+    }, 50);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
