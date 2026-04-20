@@ -77,6 +77,7 @@ function disciplineBadge(string $d): string {
     };
 }
 
+$extraHead = '<link rel="stylesheet" href="/css/leaflet.css">';
 require APP_PATH . '/Views/layout/header.php';
 
 $dt      = new \DateTime($tournament['starts_at']);
