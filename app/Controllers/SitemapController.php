@@ -69,7 +69,7 @@ class SitemapController extends BaseController
 
         // ── Torneos ───────────────────────────────────────────────────
         $tournaments = $pdo->query(
-            "SELECT slug, updated_at FROM tournaments WHERE status IN ('published','finished') ORDER BY updated_at DESC"
+            "SELECT slug, updated_at FROM tournaments WHERE status = 'published' ORDER BY updated_at DESC"
         )->fetchAll();
 
         foreach ($tournaments as $t) {
