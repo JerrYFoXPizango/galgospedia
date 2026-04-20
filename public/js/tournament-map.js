@@ -19,7 +19,7 @@ function initDetailMap(el) {
     var lng  = parseFloat(el.dataset.lng);
     var name = el.dataset.name || 'Ubicación';
 
-    var map = L.map(el, { zoomControl: true, scrollWheelZoom: false });
+    var map = L.map(el, { zoomControl: true, scrollWheelZoom: false, zoomAnimation: false, fadeAnimation: false, markerZoomAnimation: false });
 
     setTimeout(function () {
         map.invalidateSize();
@@ -57,7 +57,7 @@ function initPickerMap(el) {
     var initLng     = hasCoords ? parseFloat(lngInput.value) : -3.7038;
     var initZoom    = hasCoords ? 14 : 6;
 
-    var map = L.map(el, { scrollWheelZoom: false });
+    var map = L.map(el, { scrollWheelZoom: false, zoomAnimation: false, fadeAnimation: false });
 
     setTimeout(function () {
         map.invalidateSize();
