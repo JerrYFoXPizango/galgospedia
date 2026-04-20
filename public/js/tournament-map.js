@@ -22,9 +22,7 @@ function initDetailMap(el) {
     var map = L.map(el, { zoomControl: true, scrollWheelZoom: false })
                .setView([lat, lng], 14);
 
-    if (typeof ResizeObserver !== 'undefined') {
-        new ResizeObserver(function () { map.invalidateSize(); }).observe(el);
-    }
+    window.addEventListener('load', function () { map.invalidateSize(); }, { once: true });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -60,9 +58,7 @@ function initPickerMap(el) {
     var map = L.map(el, { scrollWheelZoom: false })
                .setView([initLat, initLng], initZoom);
 
-    if (typeof ResizeObserver !== 'undefined') {
-        new ResizeObserver(function () { map.invalidateSize(); }).observe(el);
-    }
+    window.addEventListener('load', function () { map.invalidateSize(); }, { once: true });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

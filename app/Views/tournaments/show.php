@@ -111,7 +111,7 @@ $lng = $tournament['location_lng'];
     <div class="grid lg:grid-cols-3 gap-6">
 
         <!-- Columna principal -->
-        <div class="lg:col-span-2 space-y-4" style="position:relative;z-index:2">
+        <div class="lg:col-span-2 space-y-4">
 
             <!-- Header del evento -->
             <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
@@ -282,19 +282,19 @@ $lng = $tournament['location_lng'];
         </div>
 
         <!-- Columna lateral: mapa + navegación + acciones -->
-        <div class="space-y-4" style="position:relative;z-index:1">
+        <div class="space-y-4">
 
             <?php if ($hasCoords):
                 $lat = (float) $tournament['location_lat'];
                 $lng = (float) $tournament['location_lng'];
             ?>
             <!-- Mapa Leaflet -->
-            <div class="bg-white rounded-xl border border-gray-100 shadow-sm">
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                 <div id="tournament-map"
                      data-lat="<?= $lat ?>"
                      data-lng="<?= $lng ?>"
                      data-name="<?= htmlspecialchars($tournament['location_name'] ?? $tournament['title']) ?>"
-                     style="height:220px;width:100%;border-radius:0.75rem 0.75rem 0 0;overflow:hidden;">
+                     style="height:220px;">
                 </div>
                 <!-- Botones de navegación -->
                 <div class="p-4 space-y-2">
