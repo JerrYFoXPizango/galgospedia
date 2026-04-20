@@ -5,13 +5,13 @@
  *   - Formulario (#map-picker):   mapa clickable + búsqueda Nominatim
  */
 
-setTimeout(function () {
+(function () {
     var detailEl = document.getElementById('tournament-map');
     var pickerEl = document.getElementById('map-picker');
 
     if (detailEl) initDetailMap(detailEl);
     if (pickerEl) initPickerMap(pickerEl);
-}, 200);
+}());
 
 /* ── Modo detalle (show.php) ─────────────────────────────── */
 function initDetailMap(el) {
@@ -22,7 +22,9 @@ function initDetailMap(el) {
     var map = L.map(el, { zoomControl: true, scrollWheelZoom: false })
                .setView([lat, lng], 14);
 
-    setTimeout(function () { map.invalidateSize(); }, 400);
+    if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(function () { map.invalidateSize(); }).observe(el);
+    }
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -58,7 +60,9 @@ function initPickerMap(el) {
     var map = L.map(el, { scrollWheelZoom: false })
                .setView([initLat, initLng], initZoom);
 
-    setTimeout(function () { map.invalidateSize(); }, 400);
+    if (typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(function () { map.invalidateSize(); }).observe(el);
+    }
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
