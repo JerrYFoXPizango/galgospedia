@@ -53,10 +53,10 @@ class TournamentController extends BaseController
 
         $hasCoords = !empty($tournament['location_lat']) && !empty($tournament['location_lng']);
         $extraHead = $hasCoords
-            ? '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">'
+            ? '<link rel="stylesheet" href="/css/leaflet.css">'
             : '';
         $extraScripts = $hasCoords
-            ? '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+            ? '<script src="/js/leaflet.js"></script>
                <script src="/js/tournament-map.js"></script>'
             : '';
 
@@ -66,8 +66,8 @@ class TournamentController extends BaseController
     public function create(): void
     {
         AuthService::guard();
-        $extraHead    = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">';
-        $extraScripts = '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        $extraHead    = '<link rel="stylesheet" href="/css/leaflet.css">';
+        $extraScripts = '<script src="/js/leaflet.js"></script>
                          <script src="/js/tournament-map.js"></script>';
         $this->render('tournaments/create', [
             'tournament'   => null,
@@ -85,8 +85,8 @@ class TournamentController extends BaseController
         [$errors, $data] = $this->validateInput();
 
         if ($errors) {
-            $extraHead    = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">';
-            $extraScripts = '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+            $extraHead    = '<link rel="stylesheet" href="/css/leaflet.css">';
+            $extraScripts = '<script src="/js/leaflet.js"></script>
                              <script src="/js/tournament-map.js"></script>';
             $this->render('tournaments/create', [
                 'tournament'   => $_POST,
@@ -123,8 +123,8 @@ class TournamentController extends BaseController
         }
         $this->canEdit($tournament);
 
-        $extraHead    = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">';
-        $extraScripts = '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+        $extraHead    = '<link rel="stylesheet" href="/css/leaflet.css">';
+        $extraScripts = '<script src="/js/leaflet.js"></script>
                          <script src="/js/tournament-map.js"></script>';
         $this->render('tournaments/edit', [
             'tournament'   => $tournament,
@@ -150,8 +150,8 @@ class TournamentController extends BaseController
         [$errors, $data] = $this->validateInput();
 
         if ($errors) {
-            $extraHead    = '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">';
-            $extraScripts = '<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+            $extraHead    = '<link rel="stylesheet" href="/css/leaflet.css">';
+            $extraScripts = '<script src="/js/leaflet.js"></script>
                              <script src="/js/tournament-map.js"></script>';
             $this->render('tournaments/edit', [
                 'tournament'   => array_merge($tournament, $_POST),
