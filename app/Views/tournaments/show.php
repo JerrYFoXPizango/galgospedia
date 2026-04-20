@@ -289,7 +289,7 @@ $lng = $tournament['location_lng'];
                 $lng = (float) $tournament['location_lng'];
             ?>
             <!-- Mapa Leaflet -->
-            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden" style="isolation:isolate;z-index:0;">
                 <div id="tournament-map"
                      data-lat="<?= $lat ?>"
                      data-lng="<?= $lng ?>"
