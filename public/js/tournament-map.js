@@ -5,13 +5,13 @@
  *   - Formulario (#map-picker):   mapa clickable + búsqueda Nominatim
  */
 
-(function () {
+requestAnimationFrame(function () {
     var detailEl = document.getElementById('tournament-map');
     var pickerEl = document.getElementById('map-picker');
 
     if (detailEl) initDetailMap(detailEl);
     if (pickerEl) initPickerMap(pickerEl);
-}());
+});
 
 /* ── Modo detalle (show.php) ─────────────────────────────── */
 function initDetailMap(el) {
